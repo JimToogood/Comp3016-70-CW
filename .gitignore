@@ -1,0 +1,9 @@
+# Ignore macOS system files
+.DS_Store
+
+# Visual Studio ignores
+bin/
+obj/
+.vs/
+TestResults/
+packages/
