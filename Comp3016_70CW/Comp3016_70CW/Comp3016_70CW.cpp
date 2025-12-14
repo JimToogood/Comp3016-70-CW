@@ -17,86 +17,239 @@ using namespace std;
 using namespace glm;
 
 
-// -=-=- Window -=-=-
-int windowWidth = 1280;
-int windowHeight = 720;
+class Camera {
+public:
+    Camera(int windowWidth, int windowHeight) :
+        position(vec3(0.0f, 0.0f, 2.0f)),
+        front(vec3(0.0f, 0.0f, -1.0f)),
+        up(vec3(0.0f, 1.0f, 0.0f)),
+        yaw(-90.0f),
+        pitch(0.0f),
+        lastXPos(windowWidth / 2.0f),
+        lastYPos(windowHeight / 2.0f),
+        mouseFirstEntry(true)
+    {}
 
-// -=-=- Camera -=-=-
-vec3 cameraPosition = vec3(0.0f, 0.0f, 3.0f);
-vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
-vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
+    void HandleKeyboard(GLFWwindow* window, float deltaTime) {
+        const float speed = 2.0f * deltaTime;
 
-float cameraYaw = -90.0f;   // Sideways rotation
-float cameraPitch = 0.0f;   // Vertical rotation
+        // Camera movement controls
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            position += speed * front;
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            position -= speed * front;
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            position -= normalize(cross(front, up)) * speed;
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            position += normalize(cross(front, up)) * speed;
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+            position += speed * up;
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+            position -= speed * up;
+    }
 
-float cameraLastXPos = windowWidth / 2.0f;  // Position of camera from previous frame
-float cameraLastYPos = windowHeight / 2.0f;
-bool mouseFirstEntry = true;
+    void HandleMouse(double xpos, double ypos) {
+        // Initialise last positions
+        if (mouseFirstEntry) {
+            lastXPos = (float)xpos;
+            lastYPos = (float)ypos;
+            mouseFirstEntry = false;
+        }
 
-// -=-=- Time -=-=-
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;     // Previous value of time change
+        float xOffset = (float)xpos - lastXPos;
+        float yOffset = lastYPos - (float)ypos;
+        lastXPos = (float)xpos;
+        lastYPos = (float)ypos;
+
+        // Define mouse sensitivity
+        const float sensitivity = 0.04f;
+        xOffset *= sensitivity;
+        yOffset *= sensitivity;
+
+        yaw += xOffset;
+        pitch += yOffset;
+
+        // Clamp pitch to avoid turning up & down beyond 90 degrees
+        pitch = clamp(pitch, -89.0f, 89.0f);
+
+        // Calculate camera direction
+        vec3 direction = vec3(
+            cos(radians(yaw)) * cos(radians(pitch)),
+            sin(radians(pitch)),
+            sin(radians(yaw)) * cos(radians(pitch))
+        );
+        front = normalize(direction);
+    }
+
+    // Getters and Setters
+    mat4 GetView() { return lookAt(position, position + front, up); }
+
+private:
+    vec3 position;
+    vec3 front;
+    vec3 up;
+
+    float yaw;
+    float pitch;
+
+    float lastXPos;
+    float lastYPos;
+    bool mouseFirstEntry;
+};
+
+class Game {
+public:
+    Game() :
+        window(nullptr),
+        windowWidth(1280),
+        windowHeight(720),
+        deltaTime(0.0f),
+        lastFrame(0.0f),
+        projection(mat4(1.0f)),
+        camera(windowWidth, windowHeight)
+    {}
+
+    void Initialise() {
+        // Initialise GLFW
+        glfwInit();
+
+        // Create window
+        window = glfwCreateWindow(windowWidth, windowHeight, "window", nullptr, nullptr);
+        if (!window) {
+            cerr << "Failed to initialise GLFW Window" << endl;
+            glfwTerminate();
+            return;
+        }
+        glfwMakeContextCurrent(window);
+        glewInit();
+
+        glEnable(GL_DEPTH_TEST);
+        glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);    // Use the FramebufferSizeCallback function when window is resized
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);        // Automatically binds cursor to window & hides pointer
+
+        // Load shaders
+        ShaderInfo shaders[] = {
+            { GL_VERTEX_SHADER, "shaders/vertexShader.vert" },
+            { GL_FRAGMENT_SHADER, "shaders/fragmentShader.frag" },
+            { GL_NONE, nullptr }
+        };
+        program = LoadShaders(shaders);
+        glUseProgram(program);
+
+        mvpLocation = glGetUniformLocation(program, "mvpIn");
+
+        // Set sampler uniform
+        int texLoc = glGetUniformLocation(program, "textureSampler");
+        glUniform1i(texLoc, 0);     // GL_TEXTURE0
+
+        SetProjectionMatrix();
+
+        // -=-=- Create scene objects -=-=-
+        // Wooden Quad
+        RenderObject quad = CreateTextureQuad(1.0f, 1.0f, "media/wood.jpg");    // width, height, texture file
+        quad.SetPosition(vec3(0.0f, 0.0f, -2.0f));                              // x, y, z coords
+        quad.Rotate(45.0f, vec3(0.0f, 1.0f, 0.0f));                             // degrees around axis
+        sceneObjects.push_back(quad);
+
+        // Metal Quad
+        RenderObject quad2 = CreateTextureQuad(0.75f, 0.75f, "media/metal.jpg");
+        quad2.SetPosition(vec3(1.5f, 0.0f, -3.0f));
+        sceneObjects.push_back(quad2);
+    }
+
+    void HandleInput() {
+        // Close window on escape pressed
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, true);
+        }
+
+        camera.HandleKeyboard(window, deltaTime);
+
+        double x, y;
+        glfwGetCursorPos(window, &x, &y);
+        camera.HandleMouse(x, y);
+    }
+
+    void Update() {
+        // Time management
+        float currentFrame = (float)glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+    }
+
+    void Render() {
+        glClearColor(0.9f, 0.9f, 0.9f, 1.0f);                   // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
+        mat4 view = camera.GetView();
+
+        // Render each scene object
+        for (auto& object : sceneObjects) {
+            // Build transform
+            mat4 mvp = projection * view * object.modelMatrix;
+            glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+
+            // Draw object
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, object.texture);
+
+            glBindVertexArray(object.VAO);
+            glDrawElements(GL_TRIANGLES, object.indexCount, GL_UNSIGNED_INT, nullptr);
+        }
+
+        // Refreshing
+        glfwSwapBuffers(window);    // Swaps the colour buffer
+        glfwPollEvents();           // Queries all GLFW events
+    }
+
+    void Run() {
+        while (!glfwWindowShouldClose(window)) {
+            HandleInput();
+            Update();
+            Render();
+        }
+    }
+
+    void CleanUp() {
+        glfwTerminate();
+    }
+
+    // Getters and Setters
+    void SetWindowSize(int width, int height) {
+        windowWidth = width;
+        windowHeight = height;
+        SetProjectionMatrix();
+    }
+    void SetProjectionMatrix() {
+        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
+        glViewport(0, 0, windowWidth, windowHeight);
+    }
+
+
+private:
+    GLFWwindow* window;
+
+    int windowWidth = 1280;
+    int windowHeight = 720;
+    float deltaTime;
+    float lastFrame;
+
+    mat4 projection;
+
+    GLuint program;
+    GLint mvpLocation;
+    Camera camera;
+    vector<RenderObject> sceneObjects;
+};
 
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    // Resizes window based on given width and height values
-    glViewport(0, 0, width, height);
-}
-
-void ProcessUserInput(GLFWwindow* WindowIn) {
-    // Close window on escape pressed
-    if (glfwGetKey(WindowIn, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(WindowIn, true);
+    Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+    if (game) {
+        // Resizes window based on given width and height values
+        game->SetWindowSize(width, height);
     }
-
-    const float speed = 2.0f * deltaTime;
-
-    // Camera movement controls
-    if (glfwGetKey(WindowIn, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPosition += speed * cameraFront;
-    if (glfwGetKey(WindowIn, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPosition -= speed * cameraFront;
-    if (glfwGetKey(WindowIn, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPosition -= normalize(cross(cameraFront, cameraUp)) * speed;
-    if (glfwGetKey(WindowIn, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPosition += normalize(cross(cameraFront, cameraUp)) * speed;
-    if (glfwGetKey(WindowIn, GLFW_KEY_SPACE) == GLFW_PRESS)
-        cameraPosition += speed * cameraUp;
-    if (glfwGetKey(WindowIn, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        cameraPosition -= speed * cameraUp;
-}
-
-void MouseCallback(GLFWwindow* window, double xpos, double ypos) {
-    // Initialise last positions
-    if (mouseFirstEntry) {
-        cameraLastXPos = xpos;
-        cameraLastYPos = ypos;
-        mouseFirstEntry = false;
-    }
-
-    float xOffset = xpos - cameraLastXPos;
-    float yOffset = cameraLastYPos - ypos;
-    cameraLastXPos = xpos;
-    cameraLastYPos = ypos;
-
-    // Define mouse sensitivity
-    const float sensitivity = 0.04f;
-    xOffset *= sensitivity;
-    yOffset *= sensitivity;
-
-    cameraYaw += xOffset;
-    cameraPitch += yOffset;
-
-    // Clamp pitch to avoid turning up & down beyond 90 degrees
-    cameraPitch = clamp(cameraPitch, -89.0f, 89.0f);
-
-    // Calculate camera direction
-    vec3 direction = vec3(
-        cos(radians(cameraYaw)) * cos(radians(cameraPitch)),
-        sin(radians(cameraPitch)),
-        sin(radians(cameraYaw)) * cos(radians(cameraPitch))
-    );
-    cameraFront = normalize(direction);
 }
 
 RenderObject CreateTextureQuad(float width, float height, const string& texturePath) {
@@ -104,10 +257,10 @@ RenderObject CreateTextureQuad(float width, float height, const string& textureP
 
     float vertices[] = {
         // positions                // textures
-        width/2,  height/2, 0.0f,   1.0f, 1.0f,  // top right
-        width/2, -height/2, 0.0f,   1.0f, 0.0f,  // bottom right
-       -width/2, -height/2, 0.0f,   0.0f, 0.0f,  // bottom left
-       -width/2,  height/2, 0.0f,   0.0f, 1.0f   // top left
+        width / 2,  height / 2, 0.0f,   1.0f, 1.0f,  // top right
+        width / 2, -height / 2, 0.0f,   1.0f, 0.0f,  // bottom right
+       -width / 2, -height / 2, 0.0f,   0.0f, 0.0f,  // bottom left
+       -width / 2,  height / 2, 0.0f,   0.0f, 1.0f   // top left
     };
 
     unsigned int indices[] = {
@@ -153,7 +306,8 @@ RenderObject CreateTextureQuad(float width, float height, const string& textureP
         // Upload texture to GPU
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
+    }
+    else {
         cerr << "Failed to load texture: " << texturePath << endl;
     }
 
@@ -164,99 +318,12 @@ RenderObject CreateTextureQuad(float width, float height, const string& textureP
 }
 
 
-int main() {
-    // Initialise GLFW
-    glfwInit();
+int main(int argc, char* argv[]) {
+    Game game;
+    game.Initialise();
 
-    // Create window
-    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "window", NULL, NULL);
-    if (!window) {
-        cerr << "Failed to initialise GLFW Window" << endl;
-        glfwTerminate();
-        return -1;
-    }
+    game.Run();
 
-    // Bind OpenGL to window
-    glfwMakeContextCurrent(window);
-    glewInit();
-    glViewport(0, 0, windowWidth, windowHeight);
-
-    // Assign callbacks
-    glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);    // Use the FramebufferSizeCallback function when window is resized
-    glfwSetCursorPosCallback(window, MouseCallback);                    // Use the MouseCallback function for the mouse movement
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);        // Automatically binds cursor to window & hides pointer
-
-    // Load shaders
-    ShaderInfo shaders[] = {
-        { GL_VERTEX_SHADER, "shaders/vertexShader.vert" },
-        { GL_FRAGMENT_SHADER, "shaders/fragmentShader.frag" },
-        { GL_NONE, NULL }
-    };
-    program = LoadShaders(shaders);
-    glUseProgram(program);
-
-    // Set sampler uniform once
-    int texLoc = glGetUniformLocation(program, "textureSampler");
-    glUniform1i(texLoc, 0); // GL_TEXTURE0
-
-    vector<RenderObject> sceneObjects;
-
-    // Wooden Quad
-    RenderObject quad = CreateTextureQuad(1.0f, 1.0f, "media/wood.jpg");        // width, height, texture file
-    quad.modelMatrix = translate(quad.modelMatrix, vec3(0.0f, 0.0f, -2.0f));    // x, y, z coords
-    sceneObjects.push_back(quad);
-
-    // Metal Quad
-    RenderObject quad2 = CreateTextureQuad(0.5f, 0.5f, "media/metal.jpg");
-    quad2.modelMatrix = translate(quad2.modelMatrix, vec3(1.5f, 0.0f, -3.0f));
-    sceneObjects.push_back(quad2);
-
-    // Projection matrix
-    mat4 projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
-
-    // Enable depth testing once before main loop
-    glEnable(GL_DEPTH_TEST);
-
-    // -=-=- Main loop -=-=-
-    while (!glfwWindowShouldClose(window)) {
-        // Time management
-        float currentFrame = (float)glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-
-        // User Input
-        ProcessUserInput(window);
-
-        // Rendering
-        glClearColor(0.9f, 0.9f, 0.9f, 1.0f);                   // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
-        mat4 view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
-
-        // Render each scene object
-        for (auto& object : sceneObjects) {
-            // Build transform
-            mat4 mvp = projection * view * object.modelMatrix;
-
-            int mvpLoc = glGetUniformLocation(program, "mvpIn");
-            glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-
-            // Draw object
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, object.texture);
-
-            glBindVertexArray(object.VAO);
-            glDrawElements(GL_TRIANGLES, object.indexCount, GL_UNSIGNED_INT, nullptr);
-        }
-
-        // Refreshing
-        glfwSwapBuffers(window);    // Swaps the colour buffer
-        glfwPollEvents();           // Queries all GLFW events
-    }
-
-    // Terminate GLFW
-    glfwTerminate();
-    cout << "Program exited." << endl;
+    game.CleanUp();
     return 0;
 }
