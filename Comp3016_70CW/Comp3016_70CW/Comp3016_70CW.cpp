@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -15,14 +16,6 @@
 using namespace std;
 using namespace glm;
 
-
-// VAO vertex attribute positions in correspondence to vertex attribute type
-enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
-GLuint VAOs[NumVAOs];       // VAOs
-
-// Buffer types
-enum Buffer_IDs { ArrayBuffer, NumBuffers = 4 };
-GLuint Buffers[NumBuffers];     // Buffer objects
 
 // -=-=- Window -=-=-
 int windowWidth = 1280;
@@ -98,11 +91,76 @@ void MouseCallback(GLFWwindow* window, double xpos, double ypos) {
     cameraPitch = clamp(cameraPitch, -89.0f, 89.0f);
 
     // Calculate camera direction
-    vec3 direction;
-    direction.x = cos(radians(cameraYaw)) * cos(radians(cameraPitch));
-    direction.y = sin(radians(cameraPitch));
-    direction.z = sin(radians(cameraYaw)) * cos(radians(cameraPitch));
+    vec3 direction = vec3(
+        cos(radians(cameraYaw)) * cos(radians(cameraPitch)),
+        sin(radians(cameraPitch)),
+        sin(radians(cameraYaw)) * cos(radians(cameraPitch))
+    );
     cameraFront = normalize(direction);
+}
+
+RenderObject CreateTextureQuad(float width, float height, const string& texturePath) {
+    RenderObject object;
+
+    float vertices[] = {
+        // positions                // textures
+        width/2,  height/2, 0.0f,   1.0f, 1.0f,  // top right
+        width/2, -height/2, 0.0f,   1.0f, 0.0f,  // bottom right
+       -width/2, -height/2, 0.0f,   0.0f, 0.0f,  // bottom left
+       -width/2,  height/2, 0.0f,   0.0f, 1.0f   // top left
+    };
+
+    unsigned int indices[] = {
+        0, 1, 3,    // first triangle
+        1, 2, 3     // second triangle
+    };
+    object.indexCount = 6;
+
+    // Generate VAO/VBO/EBO
+    glGenVertexArrays(1, &object.VAO);
+    glGenBuffers(1, &object.VBO);
+    glGenBuffers(1, &object.EBO);
+    glBindVertexArray(object.VAO);
+
+    // Vertex data
+    glBindBuffer(GL_ARRAY_BUFFER, object.VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // Index data
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // Position data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // Texture coordinates data
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // -=-=- Texture loading -=-=-
+    glGenTextures(1, &object.texture);
+    glBindTexture(GL_TEXTURE_2D, object.texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int imageWidth, imageHeight, colourChannels;
+    unsigned char* data = stbi_load(texturePath.c_str(), &imageWidth, &imageHeight, &colourChannels, 0);
+
+    // If retrieval successful
+    if (data) {
+        // Upload texture to GPU
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else {
+        cerr << "Failed to load texture: " << texturePath << endl;
+    }
+
+    stbi_image_free(data);
+
+    glBindVertexArray(0);
+    return object;
 }
 
 
@@ -113,7 +171,7 @@ int main() {
     // Create window
     GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "window", NULL, NULL);
     if (!window) {
-        cerr << "GLFW Window failed to initialise, exiting..." << endl;
+        cerr << "Failed to initialise GLFW Window" << endl;
         glfwTerminate();
         return -1;
     }
@@ -121,7 +179,7 @@ int main() {
     // Bind OpenGL to window
     glfwMakeContextCurrent(window);
     glewInit();
-    glViewport(0, 0, 1280, 720);
+    glViewport(0, 0, windowWidth, windowHeight);
 
     // Assign callbacks
     glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);    // Use the FramebufferSizeCallback function when window is resized
@@ -137,95 +195,29 @@ int main() {
     program = LoadShaders(shaders);
     glUseProgram(program);
 
-    float vertices[] = {
-        // positions            // textures
-        0.5f, 0.5f, 0.5f,       1.0f, 1.0f,     // top right
-        0.5f, -0.5f, 0.5f,      1.0f, 0.0f,     // bottom right
-        -0.5f, -0.5f, 0.5f,     0.0f, 0.0f,     // bottom left
-        -0.5f, 0.5f, 0.5f,      0.0f, 1.0f      // top left
-    };
+    // Set sampler uniform once
+    int texLoc = glGetUniformLocation(program, "textureSampler");
+    glUniform1i(texLoc, 0); // GL_TEXTURE0
 
-    unsigned int indices[] = {
-        0, 1, 3,    // first triangle
-        1, 2, 3     // second triangle
-    };
+    vector<RenderObject> sceneObjects;
 
-    // Sets index of VAO
-    glGenVertexArrays(NumVAOs, VAOs);
-    // Binds VAO to a buffer
-    glBindVertexArray(VAOs[0]);
-    // Sets indexes of all required buffer objects
-    glGenBuffers(NumBuffers, Buffers);
+    // Wooden Quad
+    RenderObject quad = CreateTextureQuad(1.0f, 1.0f, "media/wood.jpg");        // width, height, texture file
+    quad.modelMatrix = translate(quad.modelMatrix, vec3(0.0f, 0.0f, -2.0f));    // x, y, z coords
+    sceneObjects.push_back(quad);
 
-    // Binds vertex object to array buffer
-    glBindBuffer(GL_ARRAY_BUFFER, Buffers[Triangles]);
-    // Allocates buffer memory for the vertices of the 'Triangles' buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // Binding and allocation for indices
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Buffers[Indices]);    // Buffers[Indices]
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    // Allocation & indexing of vertex attribute memory for vertex shader
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // Colours
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    // Unbinding
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // Texture index
-    unsigned int texture;
-    // Textures to generate
-    glGenTextures(1, &texture);
-
-    // Binding texture to type 2D texture
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // Sets to use linear interpolation between adjacent mipmaps
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    // Sets to use linear interpolation upscaling (past largest mipmap texture)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // Parameters that will be sent & set based on retrieved texture
-    int width, height, colourChannels;
-    // Retrieves texture data
-    unsigned char* data = stbi_load("media/wood.jpg", &width, &height, &colourChannels, 0);
-
-    // If retrieval successful
-    if (data) {
-        // Generation of texture from retrieved texture data
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        // Automatically generates all required mipmaps on bound texture
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    // If retrieval unsuccessful
-    else {
-        cout << "Failed to load texture.\n";
-        return -1;
-    }
-
-    // Clears retrieved texture from memory
-    stbi_image_free(data);
-
-    // Model matrix
-    mat4 model = mat4(1.0f);
-    // Scaling to zoom in
-    model = scale(model, vec3(2.0f, 2.0f, 2.0f));
-    // Rotation to look down
-    model = rotate(model, radians(-45.0f), vec3(1.0f, 0.0f, 0.0f));
-    // Movement to position further back
-    model = translate(model, vec3(0.0f, 1.f, -1.5f));
+    // Metal Quad
+    RenderObject quad2 = CreateTextureQuad(0.5f, 0.5f, "media/metal.jpg");
+    quad2.modelMatrix = translate(quad2.modelMatrix, vec3(1.5f, 0.0f, -3.0f));
+    sceneObjects.push_back(quad2);
 
     // Projection matrix
     mat4 projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
-    // Game loop
+    // Enable depth testing once before main loop
+    glEnable(GL_DEPTH_TEST);
+
+    // -=-=- Main loop -=-=-
     while (!glfwWindowShouldClose(window)) {
         // Time management
         float currentFrame = (float)glfwGetTime();
@@ -236,20 +228,27 @@ int main() {
         ProcessUserInput(window);
 
         // Rendering
-        glClearColor(0.7f, 0.7f, 0.7f, 1.0f);   // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
-        glClear(GL_COLOR_BUFFER_BIT);           // Clear colour buffer
+        glClearColor(0.9f, 0.9f, 0.9f, 1.0f);                   // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Transformations
-        mat4 view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);     // Sets the position of the viewer, the movement direction in relation to it & the world up direction
-        mat4 mvp = projection * view * model;
-        int mvpLoc = glGetUniformLocation(program, "mvpIn");
+        // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
+        mat4 view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 
-        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
+        // Render each scene object
+        for (auto& object : sceneObjects) {
+            // Build transform
+            mat4 mvp = projection * view * object.modelMatrix;
 
-        // Drawing
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glBindVertexArray(VAOs[0]);         // Bind buffer object to render;
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            int mvpLoc = glGetUniformLocation(program, "mvpIn");
+            glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
+
+            // Draw object
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, object.texture);
+
+            glBindVertexArray(object.VAO);
+            glDrawElements(GL_TRIANGLES, object.indexCount, GL_UNSIGNED_INT, nullptr);
+        }
 
         // Refreshing
         glfwSwapBuffers(window);    // Swaps the colour buffer
