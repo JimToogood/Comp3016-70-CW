@@ -34,3 +34,9 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 // Function to create a textured quad
 RenderObject CreateTextureQuad(float width, float height, const string& texturePath);
+
+// Function to create textured flat terrain
+RenderObject CreateTerrain(int gridWidth, int gridDepth, float tileSize, const string& texturePath);
+
+// Function generate y values for terrain mapping
+float GenerateHeight(float x, float z);

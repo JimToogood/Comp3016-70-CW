@@ -20,7 +20,7 @@ using namespace glm;
 class Camera {
 public:
     Camera(int windowWidth, int windowHeight) :
-        position(vec3(0.0f, 0.0f, 2.0f)),
+        position(vec3(0.0f, 1.0f, 2.0f)),
         front(vec3(0.0f, 0.0f, -1.0f)),
         up(vec3(0.0f, 1.0f, 0.0f)),
         yaw(-90.0f),
@@ -147,14 +147,18 @@ public:
         // -=-=- Create scene objects -=-=-
         // Wooden Quad
         RenderObject quad = CreateTextureQuad(1.0f, 1.0f, "media/wood.jpg");    // width, height, texture file
-        quad.SetPosition(vec3(0.0f, 0.0f, -2.0f));                              // x, y, z coords
+        quad.SetPosition(vec3(0.0f, 1.07f, -2.0f));                             // x, y, z coords
         quad.Rotate(45.0f, vec3(0.0f, 1.0f, 0.0f));                             // degrees around axis
         sceneObjects.push_back(quad);
 
         // Metal Quad
         RenderObject quad2 = CreateTextureQuad(0.75f, 0.75f, "media/metal.jpg");
-        quad2.SetPosition(vec3(1.5f, 0.0f, -3.0f));
+        quad2.SetPosition(vec3(1.5f, 1.1f, -3.0f));
         sceneObjects.push_back(quad2);
+
+        // Terrain
+        RenderObject terrain = CreateTerrain(10, 10, 2.0f, "media/grass.jpg");  // grid width, grid height, tile size, texture file
+        sceneObjects.push_back(terrain);
     }
 
     void HandleInput() {
@@ -178,7 +182,7 @@ public:
     }
 
     void Render() {
-        glClearColor(0.9f, 0.9f, 0.9f, 1.0f);                   // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
+        glClearColor(0.50f, 0.68f, 0.86f, 1.0f);                // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
@@ -226,18 +230,16 @@ public:
         glViewport(0, 0, windowWidth, windowHeight);
     }
 
-
 private:
     GLFWwindow* window;
+    GLuint program;
 
-    int windowWidth = 1280;
-    int windowHeight = 720;
+    int windowWidth;
+    int windowHeight;
     float deltaTime;
     float lastFrame;
 
     mat4 projection;
-
-    GLuint program;
     GLint mvpLocation;
     Camera camera;
     vector<RenderObject> sceneObjects;
@@ -256,11 +258,11 @@ RenderObject CreateTextureQuad(float width, float height, const string& textureP
     RenderObject object;
 
     float vertices[] = {
-        // positions                // textures
-        width / 2,  height / 2, 0.0f,   1.0f, 1.0f,  // top right
-        width / 2, -height / 2, 0.0f,   1.0f, 0.0f,  // bottom right
-       -width / 2, -height / 2, 0.0f,   0.0f, 0.0f,  // bottom left
-       -width / 2,  height / 2, 0.0f,   0.0f, 1.0f   // top left
+        // positions                    // textures
+        width / 2,  height / 2, 0.0f,   1.0f, 1.0f,     // top right
+        width / 2, -height / 2, 0.0f,   1.0f, 0.0f,     // bottom right
+       -width / 2, -height / 2, 0.0f,   0.0f, 0.0f,     // bottom left
+       -width / 2,  height / 2, 0.0f,   0.0f, 1.0f      // top left
     };
 
     unsigned int indices[] = {
@@ -315,6 +317,112 @@ RenderObject CreateTextureQuad(float width, float height, const string& textureP
 
     glBindVertexArray(0);
     return object;
+}
+
+RenderObject CreateTerrain(int gridWidth, int gridDepth, float tileSize, const string& texturePath) {
+    RenderObject object;
+
+    vector<float> vertices;
+    vector<unsigned int> indices;
+
+    // Generate vertices
+    for (int z = 0; z <= gridDepth; z++) {
+        for (int x = 0; x <= gridWidth; x++) {
+            float worldX = x * tileSize;
+            float worldZ = z * tileSize;
+
+            // positions
+            vertices.push_back(worldX);
+            vertices.push_back(GenerateHeight(worldX, worldZ));
+            vertices.push_back(worldZ);
+
+            // textures
+            vertices.push_back(x);
+            vertices.push_back(z);
+        }
+    }
+
+    // Generate indices
+    for (int z = 0; z < gridDepth; z++) {
+        for (int x = 0; x < gridWidth; x++) {
+            int topLeft = z * (gridWidth + 1) + x;
+            int topRight = topLeft + 1;
+            int bottomLeft = (z + 1) * (gridWidth + 1) + x;
+            int bottomRight = bottomLeft + 1;
+
+            // first triangle
+            indices.push_back(topLeft);
+            indices.push_back(bottomLeft);
+            indices.push_back(topRight);
+
+            // second triangle
+            indices.push_back(topRight);
+            indices.push_back(bottomLeft);
+            indices.push_back(bottomRight);
+        }
+    }
+    object.indexCount = (unsigned int)indices.size();
+
+    // Centre terrain at world origin
+    object.modelMatrix = translate(object.modelMatrix, vec3(-gridWidth * tileSize / 2.0f, 0.0f, -gridDepth * tileSize / 2.0f));
+
+    // Generate VAO/VBO/EBO
+    glGenVertexArrays(1, &object.VAO);
+    glGenBuffers(1, &object.VBO);
+    glGenBuffers(1, &object.EBO);
+    glBindVertexArray(object.VAO);
+
+    // Vertex data
+    glBindBuffer(GL_ARRAY_BUFFER, object.VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+    // Index data
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+
+    // Position data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // Texture coordinates data
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // -=-=- Texture loading -=-=-
+    glGenTextures(1, &object.texture);
+    glBindTexture(GL_TEXTURE_2D, object.texture);
+
+    // Enable texture wrapping
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int imageWidth, imageHeight, colourChannels;
+    unsigned char* data = stbi_load(texturePath.c_str(), &imageWidth, &imageHeight, &colourChannels, 0);
+
+    // If retrieval successful
+    if (data) {
+        // Upload texture to GPU
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        cerr << "Failed to load texture: " << texturePath << endl;
+    }
+
+    stbi_image_free(data);
+
+    glBindVertexArray(0);
+    return object;
+}
+
+float GenerateHeight(float x, float z) {
+    float hillFrequency = 0.15f;
+    float hillAmplitude = 1.4f;
+
+    return sin(x * hillFrequency) * cos(z * hillFrequency) * hillAmplitude;
 }
 
 

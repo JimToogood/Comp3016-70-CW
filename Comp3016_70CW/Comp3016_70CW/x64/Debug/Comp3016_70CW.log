@@ -1,2 +1,12 @@
 ﻿  Comp3016_70CW.cpp
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(340,32): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(340,32): warning C4244:         with
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(340,32): warning C4244:         [
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(340,32): warning C4244:             _Ty=float
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(340,32): warning C4244:         ]
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(341,32): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(341,32): warning C4244:         with
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(341,32): warning C4244:         [
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(341,32): warning C4244:             _Ty=float
+C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(341,32): warning C4244:         ]
   Comp3016_70CW.vcxproj -> C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\x64\Debug\Comp3016_70CW.exe
