@@ -1,19 +1,25 @@
 #version 460
 
-// Triangle position with values retrieved from main.cpp
+// Vertex attributes
 layout (location = 0) in vec3 position;
-// Texture coordinates from last stage
-layout (location = 1) in vec2 textureCoordinatesVertex;
+layout (location = 1) in vec3 normal;
+layout (location = 2) in vec2 texture;
 
-// Texture coordinates to send
-out vec2 textureCoordinatesFrag;
+// Outputs to fragmentShader
+out vec3 positionFrag;
+out vec3 normalFrag;
+out vec2 textureFrag;
 
-// Model-View-Projection Matrix
+// Uniforms
 uniform mat4 mvpIn;
+uniform mat4 model;
+
 
 void main() {
+    positionFrag = vec3(model * vec4(position, 1.0));
+    normalFrag = normalize(mat3(transpose(inverse(model))) * normal);
+    textureFrag = texture;
+
     // Transformation applied to vertices
-    gl_Position = mvpIn * vec4(position.x, position.y, position.z, 1.0);
-    // Sending texture coordinates to next stage
-    textureCoordinatesFrag = textureCoordinatesVertex;
+    gl_Position = mvpIn * vec4(position, 1.0);
 }

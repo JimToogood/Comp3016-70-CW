@@ -10,8 +10,7 @@ All textures and sounds used in this project are copyright-free and licensed for
 (None as of current commit)  
 
 **Texture Assets Used:**  
-metal.jpg - (source link here)  
-wood.jpg - (source link here)  
+water.jpg - https://www.manytextures.com/texture/44/clear-sea-water/  
 grass.jpg - https://www.poliigon.com/texture/flat-grass-texture/4585  
 
 ---

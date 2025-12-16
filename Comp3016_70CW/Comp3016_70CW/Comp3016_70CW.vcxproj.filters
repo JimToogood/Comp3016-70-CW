@@ -40,5 +40,11 @@
     <None Include="shaders\vertexShader.vert">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="shaders\waterVertexShader.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\waterFragmentShader.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

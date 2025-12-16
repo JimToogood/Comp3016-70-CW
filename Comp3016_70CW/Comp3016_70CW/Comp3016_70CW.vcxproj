@@ -138,6 +138,8 @@
   <ItemGroup>
     <None Include="shaders\fragmentShader.frag" />
     <None Include="shaders\vertexShader.vert" />
+    <None Include="shaders\waterFragmentShader.frag" />
+    <None Include="shaders\waterVertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
