@@ -15,7 +15,7 @@ struct RenderObject {
     GLuint VBO;                 // Vertex buffer object
     GLuint EBO;                 // Element buffer object
     GLuint texture;             // Texture ID
-    GLuint normalTexture;       // Noraml texture ID
+    GLuint normalTexture;       // Normal texture ID
     unsigned int indexCount;    // Number of indices to draw
     mat4 modelMatrix;           // Model transformation
     float alpha;                // Transparency alpha value

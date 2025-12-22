@@ -109,9 +109,13 @@ public:
         waterProgram(0),
         windowWidth(1280),
         windowHeight(720),
+        waterLevel(-1.8f),
         deltaTime(0.0f),
         lastFrame(0.0f),
-        waterLevel(-1.8f),
+        timeOfDay(0.5f),
+        dayLength(30.0f),
+        lightColour(vec3(0.0f)),
+        lightIntensity(0.0f),
         projection(mat4(1.0f)),
         camera(windowWidth, windowHeight)
     {}
@@ -182,14 +186,58 @@ public:
     }
 
     void Update() {
-        // Time management
+        // Calculate delta time
         float currentFrame = (float)glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        // Advance day/night cycle
+        timeOfDay += deltaTime / dayLength;
+        if (timeOfDay > 1.0f) {
+            timeOfDay = 0.0f;
+        }
+
+        // Define skybox colours
+        vec3 dayColour = vec3(0.56f, 0.78f, 0.92f);
+        vec3 twilightColour = vec3(1.0f, 0.6f, 0.2f);
+        vec3 nightColour = vec3(0.04f, 0.02f, 0.08f);
+
+        // Night
+        if (timeOfDay < 0.4f) {
+            lightColour = nightColour;
+            lightIntensity = 0.3f;
+        }
+        // Sunrise
+        else if (timeOfDay < 0.45f) {
+            float t = (timeOfDay - 0.4f) / 0.05f;
+            lightColour = mix(nightColour, twilightColour, t);
+            lightIntensity = mix(0.3f, 0.65f, t);
+        }
+        else if (timeOfDay < 0.5f) {
+            float t = (timeOfDay - 0.45f) / 0.05f;
+            lightColour = mix(twilightColour, dayColour, t);
+            lightIntensity = mix(0.65f, 1.0f, t);
+        }
+        // Day
+        else if (timeOfDay < 0.9f) {
+            lightColour = dayColour;
+            lightIntensity = 1.0f;
+        }
+        // Sunset
+        else if (timeOfDay < 0.95f) {
+            float t = (timeOfDay - 0.9f) / 0.05f;
+            lightColour = mix(dayColour, twilightColour, t);
+            lightIntensity = mix(1.0f, 0.65f, t);
+        }
+        else {
+            float t = (timeOfDay - 0.95f) / 0.05f;
+            lightColour = mix(twilightColour, nightColour, t);
+            lightIntensity = mix(0.65f, 0.3f, t);
+        }
     }
 
     void Render() {
-        glClearColor(0.56f, 0.78f, 0.92f, 1.0f);                // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
+        glClearColor(lightColour.r, lightColour.g, lightColour.b, 1.0f);    // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
@@ -197,6 +245,7 @@ public:
 
         // -=-=- Render Terrain -=-=-
         glUseProgram(program);
+        glUniform1f(glGetUniformLocation(program, "lightIntensity"), lightIntensity);
 
         // Build transform
         mat4 terrainMvp = projection * view * Terrain.modelMatrix;
@@ -217,6 +266,7 @@ public:
 
         // -=-=- Render Water -=-=-
         glUseProgram(waterProgram);
+        glUniform1f(glGetUniformLocation(waterProgram, "lightIntensity"), lightIntensity);
         glDepthMask(GL_FALSE);
         
         // Build transform
@@ -270,9 +320,14 @@ private:
 
     int windowWidth;
     int windowHeight;
+    float waterLevel;
+
     float deltaTime;
     float lastFrame;
-    float waterLevel;
+    float timeOfDay;
+    float dayLength;
+    vec3 lightColour;
+    float lightIntensity;
 
     RenderObject Terrain;
     RenderObject Water;
@@ -507,10 +562,10 @@ float GenerateHeight(float x, float z) {
 
     for (int i = 0; i < octaves; i++) {
         // Frequency increases per octave
-        float frequency = baseFrequency * pow(2.0f, i);
+        float frequency = baseFrequency * (float)pow(2.0f, i);
 
         // Amplitude decreases per octave
-        float amplitude = baseAmplitude * pow(persistence, i);
+        float amplitude = baseAmplitude * (float)pow(persistence, i);
 
         // Use glm to generate perlin noise and multiply by amplitude
         height += perlin(vec2(x * frequency, z * frequency)) * amplitude;

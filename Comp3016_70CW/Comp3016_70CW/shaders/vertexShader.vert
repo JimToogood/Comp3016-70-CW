@@ -16,10 +16,10 @@ uniform mat4 model;
 
 
 void main() {
-    positionFrag = vec3(model * vec4(position, 1.0));
+    positionFrag = vec3(model * vec4(position, 1.0f));
     normalFrag = normalize(mat3(transpose(inverse(model))) * normal);
     textureFrag = texture;
 
     // Transformation applied to vertices
-    gl_Position = mvpIn * vec4(position, 1.0);
+    gl_Position = mvpIn * vec4(position, 1.0f);
 }

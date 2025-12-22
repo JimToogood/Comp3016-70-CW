@@ -1,4 +1,2 @@
 ﻿  Comp3016_70CW.cpp
-C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(510,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\Comp3016_70CW\Comp3016_70CW.cpp(513,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Comp3016_70CW.vcxproj -> C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\x64\Debug\Comp3016_70CW.exe

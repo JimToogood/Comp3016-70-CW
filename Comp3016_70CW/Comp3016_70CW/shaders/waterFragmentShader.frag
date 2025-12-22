@@ -12,10 +12,13 @@ uniform sampler2D textureIn;
 // Alpha transparency value
 uniform float waterAlpha;
 
+// Light intensity based on day/night cycle
+uniform float lightIntensity;
+
 
 void main() {
     // Setting of texture & its coordinates as colour map
-    vec3 colour = texture(textureIn, textureCoordinatesFrag).rgb;
+    vec3 colour = texture(textureIn, textureCoordinatesFrag).rgb * lightIntensity;
 
     // Combine colour value and alpha value into full RGBA
     FragColor = vec4(colour, waterAlpha);
