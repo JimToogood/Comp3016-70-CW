@@ -12,5 +12,8 @@ All textures and sounds used in this project are copyright-free and licensed for
 **Texture Assets Used:**  
 water.jpg - https://www.manytextures.com/texture/44/clear-sea-water/  
 grass.jpg - https://www.poliigon.com/texture/flat-grass-texture/4585  
+sand.jpg - https://www.poliigon.com/texture/rippled-wet-sand-texture/6997  
+snow.jpg - https://freestylized.com/material/snow_01/  
+rock.jpg - https://freestylized.com/material/cliff_rocks_01/  
 
 ---

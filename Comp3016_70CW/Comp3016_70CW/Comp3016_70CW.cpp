@@ -109,11 +109,11 @@ public:
         waterProgram(0),
         windowWidth(1280),
         windowHeight(720),
-        waterLevel(-1.8f),
+        waterLevel(-11.0f),         // -1.8f
         deltaTime(0.0f),
         lastFrame(0.0f),
         timeOfDay(0.5f),
-        dayLength(30.0f),
+        dayLength(120.0f),          // in seconds, 120.0f = 2 minutes
         lightColour(vec3(0.0f)),
         lightIntensity(0.0f),
         projection(mat4(1.0f)),
@@ -169,7 +169,13 @@ public:
         Water.SetPosition(vec3(0.0f, waterLevel + 0.01f, 0.0f));        // Add 0.01f to water level avoid z-fighting
 
         // Terrain
-        Terrain = CreateTerrain(100, 100, 2.0f, "media/grass.png", "media/grass_normal.png");   // grid width, grid height, tile size, texture, normal
+        Terrain = CreateTerrain(
+            100, 100, 2.0f,     // grid width, grid height, tile size
+            "media/sand.jpg", "media/sand_normal.jpg",
+            "media/grass.jpg", "media/grass_normal.jpg",
+            "media/rock.jpg", "media/rock_normal.jpg",
+            "media/snow.jpg", "media/snow_normal.jpg"
+        );
     }
 
     void HandleInput() {
@@ -252,14 +258,39 @@ public:
         glUniformMatrix4fv(glGetUniformLocation(program, "mvpIn"), 1, GL_FALSE, value_ptr(terrainMvp));
         glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, value_ptr(Terrain.modelMatrix));
 
-        // Draw terrain
+        // Bind Textures
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Terrain.texture);
-        glUniform1i(glGetUniformLocation(program, "diffuseMap"), 0);
+        glBindTexture(GL_TEXTURE_2D, Terrain.sandTexture);
+        glUniform1i(glGetUniformLocation(program, "sandDiffuse"), 0);
 
         glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, Terrain.normalTexture);
-        glUniform1i(glGetUniformLocation(program, "normalMap"), 1);
+        glBindTexture(GL_TEXTURE_2D, Terrain.grassTexture);
+        glUniform1i(glGetUniformLocation(program, "grassDiffuse"), 1);
+
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, Terrain.rockTexture);
+        glUniform1i(glGetUniformLocation(program, "rockDiffuse"), 2);
+
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, Terrain.snowTexture);
+        glUniform1i(glGetUniformLocation(program, "snowDiffuse"), 3);
+
+        // Bind Normals
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, Terrain.sandNormal);
+        glUniform1i(glGetUniformLocation(program, "sandNormal"), 4);
+
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D, Terrain.grassNormal);
+        glUniform1i(glGetUniformLocation(program, "grassNormal"), 5);
+
+        glActiveTexture(GL_TEXTURE6);
+        glBindTexture(GL_TEXTURE_2D, Terrain.rockNormal);
+        glUniform1i(glGetUniformLocation(program, "rockNormal"), 6);
+
+        glActiveTexture(GL_TEXTURE7);
+        glBindTexture(GL_TEXTURE_2D, Terrain.snowNormal);
+        glUniform1i(glGetUniformLocation(program, "snowNormal"), 7);
 
         glBindVertexArray(Terrain.VAO);
         glDrawElements(GL_TRIANGLES, Terrain.indexCount, GL_UNSIGNED_INT, nullptr);
@@ -309,7 +340,7 @@ public:
         SetProjectionMatrix();
     }
     void SetProjectionMatrix() {
-        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 150.0f);
+        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 180.0f);
         glViewport(0, 0, windowWidth, windowHeight);
     }
 
@@ -329,8 +360,8 @@ private:
     vec3 lightColour;
     float lightIntensity;
 
-    RenderObject Terrain;
-    RenderObject Water;
+    RenderTerrainObject Terrain;
+    RenderWaterObject Water;
 
     mat4 projection;
     Camera camera;
@@ -345,8 +376,15 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
     }
 }
 
-RenderObject CreateTerrain(int gridWidth, int gridDepth, float tileSize, const string& texturePath, const string& normalPath) {
-    RenderObject object;
+RenderTerrainObject CreateTerrain(
+    int gridWidth, int gridDepth, float tileSize,
+    const string& sandTexturePath, const string& sandNormalPath,
+    const string& grassTexturePath, const string& grassNormalPath,
+    const string& rockTexturePath, const string& rockNormalPath,
+    const string& snowTexturePath, const string& snowNormalPath
+)
+{
+    RenderTerrainObject object;
 
     vector<float> vertices;
     vector<unsigned int> indices;
@@ -425,61 +463,24 @@ RenderObject CreateTerrain(int gridWidth, int gridDepth, float tileSize, const s
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    // -=-=- Texture loading -=-=-
-    glGenTextures(1, &object.texture);
-    glBindTexture(GL_TEXTURE_2D, object.texture);
+    // Load textures
+    object.sandTexture = LoadTexture(sandTexturePath);
+    object.grassTexture = LoadTexture(grassTexturePath);
+    object.rockTexture = LoadTexture(rockTexturePath);
+    object.snowTexture = LoadTexture(snowTexturePath);
 
-    // Enable texture wrapping
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    int imageWidth, imageHeight, colourChannels;
-    unsigned char* data = stbi_load(texturePath.c_str(), &imageWidth, &imageHeight, &colourChannels, 0);
-
-    // If retrieval successful
-    if (data) {
-        // Upload texture to GPU
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
-        cerr << "Failed to load texture: " << texturePath << endl;
-    }
-    stbi_image_free(data);
-
-    // -=-=- Normal loading -=-=-
-    glGenTextures(1, &object.normalTexture);
-    glBindTexture(GL_TEXTURE_2D, object.normalTexture);
-
-    // Enable texture wrapping
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    unsigned char* normalData = stbi_load(normalPath.c_str(), &imageWidth, &imageHeight, &colourChannels, 0);
-
-    // If retrieval successful
-    if (normalData) {
-        // Upload normal to GPU
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, normalData);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
-        cerr << "Failed to load normal: " << normalPath << endl;
-    }
-    stbi_image_free(normalData);
+    // Load normals
+    object.sandNormal = LoadTexture(sandNormalPath);
+    object.grassNormal = LoadTexture(grassNormalPath);
+    object.rockNormal = LoadTexture(rockNormalPath);
+    object.snowNormal = LoadTexture(snowNormalPath);
 
     glBindVertexArray(0);
     return object;
 }
 
-RenderObject CreateWater(int width, int depth, float tileSize, float alpha, const string& texturePath) {
-    RenderObject object;
+RenderWaterObject CreateWater(int width, int depth, float tileSize, float alpha, const string& texturePath) {
+    RenderWaterObject object;
     object.alpha = alpha;
 
     float worldX = width * tileSize;
@@ -521,44 +522,22 @@ RenderObject CreateWater(int width, int depth, float tileSize, float alpha, cons
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    // -=-=- Texture loading -=-=-
-    glGenTextures(1, &object.texture);
-    glBindTexture(GL_TEXTURE_2D, object.texture);
-
-    // Enable texture wrapping
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    int imageWidth, imageHeight, colourChannels;
-    unsigned char* data = stbi_load(texturePath.c_str(), &imageWidth, &imageHeight, &colourChannels, 0);
-
-    // If retrieval successful
-    if (data) {
-        // Upload texture to GPU
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
-        cerr << "Failed to load texture: " << texturePath << endl;
-    }
-    stbi_image_free(data);
+    // Load texture
+    object.texture = LoadTexture(texturePath);
 
     glBindVertexArray(0);
     return object;
 }
 
 float GenerateHeight(float x, float z) {
-    float baseFrequency = 0.05f;    // Higher value = More hills
-    float baseAmplitude = 4.0f;     // Higher value = Bigger hills
+    float baseFrequency = 0.02f;    // Higher value = More hills
+    float baseAmplitude = 25.0f;    // Higher value = Bigger hills
 
     float height = 0.0f;        // Accumlated height
     float persistence = 0.35f;  // Amplitude scaling for each octave
     int octaves = 6;            // Higher value = more terrain detail
 
-    float puddleThreshold = 0.3f;   // Minium size of water bodies
+    //float puddleThreshold = 0.3f;   // Minium size of water bodies
 
     for (int i = 0; i < octaves; i++) {
         // Frequency increases per octave
@@ -583,6 +562,36 @@ vec3 GenerateNormal(float x, float z) {
     vec3 normal = vec3(heightL - heightR, 2.0f, heightD - heightU);
 
     return normalize(normal);
+}
+
+GLuint LoadTexture(const string& texturePath) {
+    GLuint textureID;
+
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
+    // Enable texture wrapping
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int imageWidth, imageHeight, colourChannels;
+    unsigned char* data = stbi_load(texturePath.c_str(), &imageWidth, &imageHeight, &colourChannels, 0);
+
+    // If retrieval successful
+    if (data) {
+        // Upload texture to GPU
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        cerr << "Failed to load texture: " << texturePath << endl;
+    }
+
+    stbi_image_free(data);
+    return textureID;
 }
 
 
