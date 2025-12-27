@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -21,7 +22,7 @@ using namespace glm;
 class Camera {
 public:
     Camera(int windowWidth, int windowHeight) :
-        position(vec3(0.0f, 1.0f, 2.0f)),
+        position(vec3((CHUNK_SIZE * TILE_SIZE)/2, 10.0f, (CHUNK_SIZE * TILE_SIZE)/2)),  // Spawn player at centre of starting chunk
         front(vec3(0.0f, 0.0f, -1.0f)),
         up(vec3(0.0f, 1.0f, 0.0f)),
         yaw(-90.0f),
@@ -32,7 +33,7 @@ public:
     {}
 
     void HandleKeyboard(GLFWwindow* window, float deltaTime) {
-        const float speed = 4.0f * deltaTime;
+        const float speed = 25.0f * deltaTime;
 
         // Horizontal movement controls
         vec3 horizontalFront = normalize(vec3(front.x, 0.0f, front.z));
@@ -87,6 +88,7 @@ public:
 
     // Getters and Setters
     mat4 GetView() { return lookAt(position, position + front, up); }
+    vec3 GetPos() { return position; }
 
 private:
     vec3 position;
@@ -109,13 +111,22 @@ public:
         waterProgram(0),
         windowWidth(1280),
         windowHeight(720),
-        waterLevel(-11.0f),         // -1.8f
         deltaTime(0.0f),
         lastFrame(0.0f),
         timeOfDay(0.5f),
         dayLength(120.0f),          // in seconds, 120.0f = 2 minutes
         lightColour(vec3(0.0f)),
         lightIntensity(0.0f),
+        previousCameraChunk(vec3(0.0f)),
+        waterTexture(0),
+        sandTexture(0),
+        grassTexture(0),
+        rockTexture(0),
+        snowTexture(0),
+        sandNormal(0),
+        grassNormal(0),
+        rockNormal(0),
+        snowNormal(0),
         projection(mat4(1.0f)),
         camera(windowWidth, windowHeight)
     {}
@@ -125,7 +136,7 @@ public:
         glfwInit();
 
         // Create window
-        window = glfwCreateWindow(windowWidth, windowHeight, "window", nullptr, nullptr);
+        window = glfwCreateWindow(windowWidth, windowHeight, "LOADING...      PLEASE WAIT.", nullptr, nullptr);
         if (!window) {
             cerr << "Failed to initialise GLFW Window" << endl;
             glfwTerminate();
@@ -159,23 +170,30 @@ public:
 
         // Set sampler uniform
         int texLoc = glGetUniformLocation(program, "textureSampler");
-        glUniform1i(texLoc, 0);     // GL_TEXTURE0
+        glUniform1i(texLoc, 0);
 
         SetProjectionMatrix();
 
-        // -=-=- Create scene objects -=-=-
-        // Water
-        Water = CreateWater(100, 100, 2.0f, 0.5f, "media/water.jpg");   // grid width, grid height, tile size, alpha, texture
-        Water.SetPosition(vec3(0.0f, waterLevel + 0.01f, 0.0f));        // Add 0.01f to water level avoid z-fighting
+        // -=-=- Terrain -=-=-
+        // Load water texture
+        waterTexture = LoadTexture("media/water.jpg");
 
-        // Terrain
-        Terrain = CreateTerrain(
-            100, 100, 2.0f,     // grid width, grid height, tile size
-            "media/sand.jpg", "media/sand_normal.jpg",
-            "media/grass.jpg", "media/grass_normal.jpg",
-            "media/rock.jpg", "media/rock_normal.jpg",
-            "media/snow.jpg", "media/snow_normal.jpg"
-        );
+        // Load terrain textures
+        sandTexture = LoadTexture("media/sand.jpg");
+        grassTexture = LoadTexture("media/grass.jpg");
+        rockTexture = LoadTexture("media/rock.jpg");
+        snowTexture = LoadTexture("media/snow.jpg");
+
+        // Load terrain normals
+        sandNormal = LoadTexture("media/sand_normal.jpg");
+        grassNormal = LoadTexture("media/grass_normal.jpg");
+        rockNormal = LoadTexture("media/rock_normal.jpg");
+        snowNormal = LoadTexture("media/snow_normal.jpg");
+
+        UpdateTerrainChunks();
+
+        // Remove loading title
+        glfwSetWindowTitle(window, "window");
     }
 
     void HandleInput() {
@@ -204,9 +222,9 @@ public:
         }
 
         // Define skybox colours
-        vec3 dayColour = vec3(0.56f, 0.78f, 0.92f);
-        vec3 twilightColour = vec3(1.0f, 0.6f, 0.2f);
-        vec3 nightColour = vec3(0.04f, 0.02f, 0.08f);
+        const vec3 dayColour = vec3(0.56f, 0.78f, 0.92f);
+        const vec3 twilightColour = vec3(1.0f, 0.6f, 0.2f);
+        const vec3 nightColour = vec3(0.04f, 0.02f, 0.08f);
 
         // Night
         if (timeOfDay < 0.4f) {
@@ -240,6 +258,21 @@ public:
             lightColour = mix(twilightColour, nightColour, t);
             lightIntensity = mix(0.65f, 0.3f, t);
         }
+
+        vec3 cameraPosition = camera.GetPos();
+        vec3 currentCameraChunk = vec3(
+            floor(cameraPosition.x / CHUNK_WORLD_SIZE),
+            0.0f,
+            floor(cameraPosition.z / CHUNK_WORLD_SIZE)
+        );
+
+        // Update chunks when camera enters a new chunk
+        if (currentCameraChunk != previousCameraChunk) {
+            cout << "Updating chunks..." << endl;
+            UpdateTerrainChunks();
+
+            previousCameraChunk = currentCameraChunk;
+        }
     }
 
     void Render() {
@@ -251,69 +284,83 @@ public:
 
         // -=-=- Render Terrain -=-=-
         glUseProgram(program);
-        glUniform1f(glGetUniformLocation(program, "lightIntensity"), lightIntensity);
 
-        // Build transform
-        mat4 terrainMvp = projection * view * Terrain.modelMatrix;
-        glUniformMatrix4fv(glGetUniformLocation(program, "mvpIn"), 1, GL_FALSE, value_ptr(terrainMvp));
-        glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, value_ptr(Terrain.modelMatrix));
+        // Render each chunk
+        for (auto& pair : terrainChunks) {
+            RenderTerrainObject& chunkTerrain = pair.second.terrain;
 
-        // Bind Textures
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Terrain.sandTexture);
-        glUniform1i(glGetUniformLocation(program, "sandDiffuse"), 0);
+            // Bind Textures
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.sandTexture);
+            glUniform1i(glGetUniformLocation(program, "sandDiffuse"), 0);
 
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, Terrain.grassTexture);
-        glUniform1i(glGetUniformLocation(program, "grassDiffuse"), 1);
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.grassTexture);
+            glUniform1i(glGetUniformLocation(program, "grassDiffuse"), 1);
 
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, Terrain.rockTexture);
-        glUniform1i(glGetUniformLocation(program, "rockDiffuse"), 2);
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.rockTexture);
+            glUniform1i(glGetUniformLocation(program, "rockDiffuse"), 2);
 
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, Terrain.snowTexture);
-        glUniform1i(glGetUniformLocation(program, "snowDiffuse"), 3);
+            glActiveTexture(GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.snowTexture);
+            glUniform1i(glGetUniformLocation(program, "snowDiffuse"), 3);
 
-        // Bind Normals
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, Terrain.sandNormal);
-        glUniform1i(glGetUniformLocation(program, "sandNormal"), 4);
+            // Bind Normals
+            glActiveTexture(GL_TEXTURE4);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.sandNormal);
+            glUniform1i(glGetUniformLocation(program, "sandNormal"), 4);
 
-        glActiveTexture(GL_TEXTURE5);
-        glBindTexture(GL_TEXTURE_2D, Terrain.grassNormal);
-        glUniform1i(glGetUniformLocation(program, "grassNormal"), 5);
+            glActiveTexture(GL_TEXTURE5);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.grassNormal);
+            glUniform1i(glGetUniformLocation(program, "grassNormal"), 5);
 
-        glActiveTexture(GL_TEXTURE6);
-        glBindTexture(GL_TEXTURE_2D, Terrain.rockNormal);
-        glUniform1i(glGetUniformLocation(program, "rockNormal"), 6);
+            glActiveTexture(GL_TEXTURE6);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.rockNormal);
+            glUniform1i(glGetUniformLocation(program, "rockNormal"), 6);
 
-        glActiveTexture(GL_TEXTURE7);
-        glBindTexture(GL_TEXTURE_2D, Terrain.snowNormal);
-        glUniform1i(glGetUniformLocation(program, "snowNormal"), 7);
+            glActiveTexture(GL_TEXTURE7);
+            glBindTexture(GL_TEXTURE_2D, chunkTerrain.snowNormal);
+            glUniform1i(glGetUniformLocation(program, "snowNormal"), 7);
 
-        glBindVertexArray(Terrain.VAO);
-        glDrawElements(GL_TRIANGLES, Terrain.indexCount, GL_UNSIGNED_INT, nullptr);
+            // Pass light intensity to shader
+            glUniform1f(glGetUniformLocation(program, "lightIntensity"), lightIntensity);
+
+            // Build transform
+            mat4 terrainMvp = projection * view * chunkTerrain.modelMatrix;
+            glUniformMatrix4fv(glGetUniformLocation(program, "mvpIn"), 1, GL_FALSE, value_ptr(terrainMvp));
+            glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, value_ptr(chunkTerrain.modelMatrix));
+
+            glBindVertexArray(chunkTerrain.VAO);
+            glDrawElements(GL_TRIANGLES, chunkTerrain.indexCount, GL_UNSIGNED_INT, nullptr);
+        }
 
         // -=-=- Render Water -=-=-
+        float waterTimer = (float)glfwGetTime();
         glUseProgram(waterProgram);
-        glUniform1f(glGetUniformLocation(waterProgram, "lightIntensity"), lightIntensity);
         glDepthMask(GL_FALSE);
-        
-        // Build transform
-        mat4 waterMvp = projection * view * Water.modelMatrix;
-        glUniformMatrix4fv(glGetUniformLocation(waterProgram, "mvpIn"), 1, GL_FALSE, value_ptr(waterMvp));
 
-        // Assign transparency alpha value
-        glUniform1f(glGetUniformLocation(waterProgram, "waterAlpha"), Water.alpha);
+        // Render each chunk
+        for (auto& pair : terrainChunks) {
+            RenderWaterObject& chunkWater = pair.second.water;
 
-        // Draw water
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Water.texture);
-        glUniform1i(glGetUniformLocation(waterProgram, "diffuseMap"), 0);
+            // Bind Texture
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, chunkWater.texture);
+            glUniform1i(glGetUniformLocation(waterProgram, "diffuseMap"), 0);
 
-        glBindVertexArray(Water.VAO);
-        glDrawElements(GL_TRIANGLES, Water.indexCount, GL_UNSIGNED_INT, nullptr);
+            // Pass needed variables to shader
+            glUniform1f(glGetUniformLocation(waterProgram, "lightIntensity"), lightIntensity);
+            glUniform1f(glGetUniformLocation(waterProgram, "timer"), waterTimer);
+            glUniform1f(glGetUniformLocation(waterProgram, "waterAlpha"), chunkWater.alpha);
+
+            // Build transform
+            mat4 waterMvp = projection * view * chunkWater.modelMatrix;
+            glUniformMatrix4fv(glGetUniformLocation(waterProgram, "mvpIn"), 1, GL_FALSE, value_ptr(waterMvp));
+
+            glBindVertexArray(chunkWater.VAO);
+            glDrawElements(GL_TRIANGLES, chunkWater.indexCount, GL_UNSIGNED_INT, nullptr);
+        }
         glDepthMask(GL_TRUE);
 
         // Refreshing
@@ -333,6 +380,68 @@ public:
         glfwTerminate();
     }
 
+    void UpdateTerrainChunks() {
+        // Find which chunk the camera is in
+        vec3 cameraPosition = camera.GetPos();
+        int cameraChunkX = (int)floor(cameraPosition.x / CHUNK_WORLD_SIZE);
+        int cameraChunkZ = (int)floor(cameraPosition.z / CHUNK_WORLD_SIZE);
+
+        // Load nearby chunks
+        for (int z = -RENDER_DISTANCE; z <= RENDER_DISTANCE; z++) {
+            for (int x = -RENDER_DISTANCE; x <= RENDER_DISTANCE; x++) {
+                int currentChunkX = cameraChunkX + x;
+                int currentChunkZ = cameraChunkZ + z;
+
+                // Create unique key for current chunk
+                ChunkKey key{ currentChunkX, currentChunkZ };
+
+                // If chunk did not already exist, create it
+                if (terrainChunks.find(key) == terrainChunks.end()) {
+                    TerrainChunk chunk;
+                    chunk.chunkX = currentChunkX;
+                    chunk.chunkZ = currentChunkZ;
+
+                    chunk.terrain = CreateTerrain(
+                        CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ,
+                        sandTexture, sandNormal,
+                        grassTexture, grassNormal,
+                        rockTexture, rockNormal,
+                        snowTexture, snowNormal
+                    );
+
+                    chunk.water = CreateWater(
+                        CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ, 0.5f, waterTexture
+                    );
+
+                    // Add current chunk to chunk map
+                    terrainChunks[key] = chunk;
+                }
+            }
+        }
+
+        // Unload faraway chunks
+        for (auto it = terrainChunks.begin(); it != terrainChunks.end();) {
+            int dx = it->second.chunkX - cameraChunkX;
+            int dz = it->second.chunkZ - cameraChunkZ;
+
+            // If chunk outside of render distance
+            if (abs(dx) > RENDER_DISTANCE || abs(dz) > RENDER_DISTANCE) {
+                // Delete GPU resources for chunk
+                glDeleteVertexArrays(1, &it->second.terrain.VAO);
+                glDeleteBuffers(1, &it->second.terrain.VBO);
+                glDeleteBuffers(1, &it->second.terrain.EBO);
+                glDeleteVertexArrays(1, &it->second.water.VAO);
+                glDeleteBuffers(1, &it->second.water.VBO);
+                glDeleteBuffers(1, &it->second.water.EBO);
+
+                // Remove chunk from chunk map
+                it = terrainChunks.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     // Getters and Setters
     void SetWindowSize(int width, int height) {
         windowWidth = width;
@@ -340,7 +449,7 @@ public:
         SetProjectionMatrix();
     }
     void SetProjectionMatrix() {
-        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 180.0f);
+        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 500.0f);
         glViewport(0, 0, windowWidth, windowHeight);
     }
 
@@ -351,16 +460,25 @@ private:
 
     int windowWidth;
     int windowHeight;
-    float waterLevel;
-
     float deltaTime;
     float lastFrame;
     float timeOfDay;
     float dayLength;
     vec3 lightColour;
     float lightIntensity;
+    vec3 previousCameraChunk;
 
-    RenderTerrainObject Terrain;
+    GLuint waterTexture;
+    GLuint sandTexture;
+    GLuint grassTexture;
+    GLuint rockTexture;
+    GLuint snowTexture;
+    GLuint sandNormal;
+    GLuint grassNormal;
+    GLuint rockNormal;
+    GLuint snowNormal;
+
+    unordered_map<ChunkKey, TerrainChunk, ChunkKeyHash> terrainChunks;
     RenderWaterObject Water;
 
     mat4 projection;
@@ -368,6 +486,7 @@ private:
 };
 
 
+// TODO: Fix issue where enlargening window does not render objects in the newly created screen space
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
     Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
     if (game) {
@@ -377,11 +496,11 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 RenderTerrainObject CreateTerrain(
-    int gridWidth, int gridDepth, float tileSize,
-    const string& sandTexturePath, const string& sandNormalPath,
-    const string& grassTexturePath, const string& grassNormalPath,
-    const string& rockTexturePath, const string& rockNormalPath,
-    const string& snowTexturePath, const string& snowNormalPath
+    int gridWidth, int gridDepth, float tileSize, int chunkX, int chunkZ,
+    GLuint sandTexture, GLuint sandNormal,
+    GLuint grassTexture, GLuint grassNormal,
+    GLuint rockTexture, GLuint rockNormal,
+    GLuint snowTexture, GLuint snowNormal
 )
 {
     RenderTerrainObject object;
@@ -389,11 +508,14 @@ RenderTerrainObject CreateTerrain(
     vector<float> vertices;
     vector<unsigned int> indices;
 
+    float offsetX = chunkX * (gridWidth * tileSize + 5.0f);
+    float offsetZ = chunkZ * (gridDepth * tileSize + 5.0f);
+
     // Generate vertices
     for (int z = 0; z <= gridDepth; z++) {
         for (int x = 0; x <= gridWidth; x++) {
-            float worldX = x * tileSize;
-            float worldZ = z * tileSize;
+            float worldX = offsetX + x * tileSize;
+            float worldZ = offsetZ + z * tileSize;
 
             vec3 normal = GenerateNormal(worldX, worldZ);
 
@@ -408,8 +530,8 @@ RenderTerrainObject CreateTerrain(
             vertices.push_back(normal.z);
 
             // textures
-            vertices.push_back((float)x);
-            vertices.push_back((float)z);
+            vertices.push_back(worldX);
+            vertices.push_back(worldZ);
         }
     }
 
@@ -433,9 +555,6 @@ RenderTerrainObject CreateTerrain(
         }
     }
     object.indexCount = (unsigned int)indices.size();
-
-    // Centre terrain at world origin
-    object.modelMatrix = translate(object.modelMatrix, vec3(-gridWidth * tileSize / 2.0f, 0.0f, -gridDepth * tileSize / 2.0f));
 
     // Generate VAO/VBO/EBO
     glGenVertexArrays(1, &object.VAO);
@@ -463,35 +582,38 @@ RenderTerrainObject CreateTerrain(
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    // Load textures
-    object.sandTexture = LoadTexture(sandTexturePath);
-    object.grassTexture = LoadTexture(grassTexturePath);
-    object.rockTexture = LoadTexture(rockTexturePath);
-    object.snowTexture = LoadTexture(snowTexturePath);
+    // Assign textures
+    object.sandTexture = sandTexture;
+    object.grassTexture = grassTexture;
+    object.rockTexture = rockTexture;
+    object.snowTexture = snowTexture;
 
-    // Load normals
-    object.sandNormal = LoadTexture(sandNormalPath);
-    object.grassNormal = LoadTexture(grassNormalPath);
-    object.rockNormal = LoadTexture(rockNormalPath);
-    object.snowNormal = LoadTexture(snowNormalPath);
+    // Assign normals
+    object.sandNormal = sandNormal;
+    object.grassNormal = grassNormal;
+    object.rockNormal = rockNormal;
+    object.snowNormal = snowNormal;
 
     glBindVertexArray(0);
     return object;
 }
 
-RenderWaterObject CreateWater(int width, int depth, float tileSize, float alpha, const string& texturePath) {
+RenderWaterObject CreateWater(int gridWidth, int gridDepth, float tileSize, int chunkX, int chunkZ, float alpha, GLuint waterTexture) {
     RenderWaterObject object;
     object.alpha = alpha;
 
-    float worldX = width * tileSize;
-    float worldZ = depth * tileSize;
+    float sizeX = gridWidth * tileSize;
+    float sizeZ = gridDepth * tileSize;
+
+    float offsetX = chunkX * (sizeX + 5.0f);
+    float offsetZ = chunkZ * (sizeZ + 5.0f);
 
     float vertices[] = {
-        // positions                      // textures
-        worldX / 2,  0.0f,  worldZ / 2,   worldX, worldZ,   // top right
-        worldX / 2,  0.0f, -worldZ / 2,   worldX, 0.0f,     // bottom right
-       -worldX / 2,  0.0f, -worldZ / 2,   0.0f,   0.0f,     // bottom left
-       -worldX / 2,  0.0f,  worldZ / 2,   0.0f,   worldZ    // top left
+        // positions                                    // textures
+        offsetX + sizeX, WATER_LEVEL, offsetZ + sizeZ,  sizeX, sizeZ,   // top right
+        offsetX + sizeX, WATER_LEVEL, offsetZ,          sizeX, 0.0f,    // bottom right
+        offsetX,         WATER_LEVEL, offsetZ,          0.0f,  0.0f,    // bottom left
+        offsetX,         WATER_LEVEL, offsetZ + sizeZ,  0.0f,  sizeZ    // top left
     };
 
     unsigned int indices[] = {
@@ -522,8 +644,8 @@ RenderWaterObject CreateWater(int width, int depth, float tileSize, float alpha,
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    // Load texture
-    object.texture = LoadTexture(texturePath);
+    // Assign texture
+    object.texture = waterTexture;
 
     glBindVertexArray(0);
     return object;
@@ -536,8 +658,6 @@ float GenerateHeight(float x, float z) {
     float height = 0.0f;        // Accumlated height
     float persistence = 0.35f;  // Amplitude scaling for each octave
     int octaves = 6;            // Higher value = more terrain detail
-
-    //float puddleThreshold = 0.3f;   // Minium size of water bodies
 
     for (int i = 0; i < octaves; i++) {
         // Frequency increases per octave
