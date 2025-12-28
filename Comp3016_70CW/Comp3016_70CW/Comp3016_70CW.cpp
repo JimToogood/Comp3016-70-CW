@@ -146,6 +146,7 @@ public:
         glewInit();
 
         glEnable(GL_DEPTH_TEST);
+        glfwSetWindowUserPointer(window, this);
         glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);    // Use the FramebufferSizeCallback function when window is resized
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);        // Automatically binds cursor to window & hides pointer
 
@@ -194,6 +195,9 @@ public:
 
         // Remove loading title
         glfwSetWindowTitle(window, "window");
+
+        // Enable wire-frame mode for testing
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
     void HandleInput() {
@@ -395,14 +399,18 @@ public:
                 // Create unique key for current chunk
                 ChunkKey key{ currentChunkX, currentChunkZ };
 
-                // If chunk did not already exist, create it
-                if (terrainChunks.find(key) == terrainChunks.end()) {
+                int LOD = CalculateLOD(x, z);
+
+                auto it = terrainChunks.find(key);
+
+                // If chunk did not already exist, create chunk
+                if (it == terrainChunks.end()) {
                     TerrainChunk chunk;
                     chunk.chunkX = currentChunkX;
                     chunk.chunkZ = currentChunkZ;
 
                     chunk.terrain = CreateTerrain(
-                        CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ,
+                        CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ, LOD,
                         sandTexture, sandNormal,
                         grassTexture, grassNormal,
                         rockTexture, rockNormal,
@@ -410,11 +418,28 @@ public:
                     );
 
                     chunk.water = CreateWater(
-                        CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ, 0.5f, waterTexture
+                        CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ, 0.5f, waterTexture
                     );
 
                     // Add current chunk to chunk map
                     terrainChunks[key] = chunk;
+                }
+                // Rebuild chunk if LOD has changed
+                else if (it->second.LOD != LOD) {
+                    // Delete old GPU resources for chunk
+                    glDeleteVertexArrays(1, &it->second.terrain.VAO);
+                    glDeleteBuffers(1, &it->second.terrain.VBO);
+                    glDeleteBuffers(1, &it->second.terrain.EBO);
+
+                    it->second.terrain = CreateTerrain(
+                        CHUNK_SIZE, TILE_SIZE, currentChunkX, currentChunkZ, LOD,
+                        sandTexture, sandNormal,
+                        grassTexture, grassNormal,
+                        rockTexture, rockNormal,
+                        snowTexture, snowNormal
+                    );
+
+                    it->second.LOD = LOD;
                 }
             }
         }
@@ -449,7 +474,7 @@ public:
         SetProjectionMatrix();
     }
     void SetProjectionMatrix() {
-        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 500.0f);
+        projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 1000.0f);
         glViewport(0, 0, windowWidth, windowHeight);
     }
 
@@ -486,7 +511,6 @@ private:
 };
 
 
-// TODO: Fix issue where enlargening window does not render objects in the newly created screen space
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
     Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
     if (game) {
@@ -496,7 +520,7 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 RenderTerrainObject CreateTerrain(
-    int gridWidth, int gridDepth, float tileSize, int chunkX, int chunkZ,
+    int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD,
     GLuint sandTexture, GLuint sandNormal,
     GLuint grassTexture, GLuint grassNormal,
     GLuint rockTexture, GLuint rockNormal,
@@ -508,12 +532,19 @@ RenderTerrainObject CreateTerrain(
     vector<float> vertices;
     vector<unsigned int> indices;
 
-    float offsetX = chunkX * (gridWidth * tileSize + 5.0f);
-    float offsetZ = chunkZ * (gridDepth * tileSize + 5.0f);
+    // LOD step
+    int step = 1 << currentLOD;
+
+    // LOD adjusted chunk resolution
+    int effectiveGrid = gridSize / step;
+
+    // Chunk offset
+    float offsetX = chunkX * (gridSize * tileSize + 5.0f);      // +5.0f space between chunks for testing
+    float offsetZ = chunkZ * (gridSize * tileSize + 5.0f);
 
     // Generate vertices
-    for (int z = 0; z <= gridDepth; z++) {
-        for (int x = 0; x <= gridWidth; x++) {
+    for (int z = 0; z <= gridSize; z += step) {
+        for (int x = 0; x <= gridSize; x += step) {
             float worldX = offsetX + x * tileSize;
             float worldZ = offsetZ + z * tileSize;
 
@@ -536,11 +567,11 @@ RenderTerrainObject CreateTerrain(
     }
 
     // Generate indices
-    for (int z = 0; z < gridDepth; z++) {
-        for (int x = 0; x < gridWidth; x++) {
-            int topLeft = z * (gridWidth + 1) + x;
+    for (int z = 0; z < effectiveGrid; z++) {
+        for (int x = 0; x < effectiveGrid; x++) {
+            int topLeft = z * (effectiveGrid + 1) + x;
             int topRight = topLeft + 1;
-            int bottomLeft = (z + 1) * (gridWidth + 1) + x;
+            int bottomLeft = (z + 1) * (effectiveGrid + 1) + x;
             int bottomRight = bottomLeft + 1;
 
             // first triangle
@@ -598,12 +629,12 @@ RenderTerrainObject CreateTerrain(
     return object;
 }
 
-RenderWaterObject CreateWater(int gridWidth, int gridDepth, float tileSize, int chunkX, int chunkZ, float alpha, GLuint waterTexture) {
+RenderWaterObject CreateWater(int gridSize, float tileSize, int chunkX, int chunkZ, float alpha, GLuint waterTexture) {
     RenderWaterObject object;
     object.alpha = alpha;
 
-    float sizeX = gridWidth * tileSize;
-    float sizeZ = gridDepth * tileSize;
+    float sizeX = gridSize * tileSize;
+    float sizeZ = gridSize * tileSize;
 
     float offsetX = chunkX * (sizeX + 5.0f);
     float offsetZ = chunkZ * (sizeZ + 5.0f);
@@ -712,6 +743,15 @@ GLuint LoadTexture(const string& texturePath) {
 
     stbi_image_free(data);
     return textureID;
+}
+
+static int CalculateLOD(int x, int z) {
+    int distance = std::max(abs(x), abs(z));
+
+    if (distance <= 1) { return 0; }
+    if (distance <= 2) { return 1; }
+    if (distance <= 4) { return 2; }
+    else { return 3; }
 }
 
 

@@ -12,8 +12,7 @@ const float WATER_LEVEL = -11.0f;
 const int CHUNK_SIZE = 100;
 const float TILE_SIZE = 2.0;
 const float CHUNK_WORLD_SIZE = CHUNK_SIZE * TILE_SIZE;
-const int RENDER_DISTANCE = 1;      // Number of chunks loaded in each direction from the camera
-
+const int RENDER_DISTANCE = 5;      // Number of chunks loaded in each direction from the camera
 
 class Game;
 
@@ -84,6 +83,7 @@ struct TerrainChunk {
     RenderWaterObject water;
     int chunkX;
     int chunkZ;
+    int LOD;        // Level of Detail
 };
 
 // Unique key used to identify each terrain chunk
@@ -115,7 +115,7 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 // Function to create textured flat terrain chunk
 RenderTerrainObject CreateTerrain(
-    int gridWidth, int gridDepth, float tileSize, int chunkX, int chunkZ,
+    int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD,
     GLuint sandTexture, GLuint sandNormal,
     GLuint grassTexture, GLuint grassNormal,
     GLuint rockTexture, GLuint rockNormal,
@@ -123,7 +123,7 @@ RenderTerrainObject CreateTerrain(
 );
 
 // Function to create textured flat water
-RenderWaterObject CreateWater(int gridWidth, int gridDepth, float tileSize, int chunkX, int chunkZ, float alpha, GLuint waterTexture);
+RenderWaterObject CreateWater(int gridSize, float tileSize, int chunkX, int chunkZ, float alpha, GLuint waterTexture);
 
 // Function generate y values for terrain mapping
 float GenerateHeight(float x, float z);
@@ -133,3 +133,6 @@ vec3 GenerateNormal(float x, float z);
 
 // Load texture image from given file location
 GLuint LoadTexture(const string& texturePath);
+
+// Calculate LOD
+static int CalculateLOD(int x, int z);
