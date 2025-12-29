@@ -24,7 +24,7 @@ void main() {
     displacedPos.y += cos(displacedPos.z * waveFrequency + timer * waveSpeed) * waveAmplitude;
 
     // Transformation applied to vertices
-    gl_Position = mvpIn * vec4(displacedPos, 1.0);
+    gl_Position = mvpIn * vec4(displacedPos, 1.0f);
 
     // Sending texture coordinates to next stage
     textureCoordinatesFrag = textureCoordinatesVertex;

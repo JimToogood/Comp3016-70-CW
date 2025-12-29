@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm/ext/matrix_transform.hpp>
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace glm;
@@ -13,6 +14,7 @@ const int CHUNK_SIZE = 100;
 const float TILE_SIZE = 2.0;
 const float CHUNK_WORLD_SIZE = CHUNK_SIZE * TILE_SIZE;
 const int RENDER_DISTANCE = 5;      // Number of chunks loaded in each direction from the camera
+const float SKIRT_DEPTH = 10.0f;    // How far below the vertex edge the skirt extends
 
 class Game;
 
@@ -77,6 +79,15 @@ struct RenderWaterObject {
     }
 };
 
+// CPU chunk data
+struct TerrainMeshData {
+    vector<float> vertices;
+    vector<unsigned int> indices;
+    int chunkX;
+    int chunkZ;
+    int LOD;        // Level of Detail
+};
+
 // Data needed for each terrain chunk
 struct TerrainChunk {
     RenderTerrainObject terrain;
@@ -113,7 +124,7 @@ struct ChunkKeyHash {
 // Window resize logic
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
-// Function to create textured flat terrain chunk
+// Function to create textured terrain chunk
 RenderTerrainObject CreateTerrain(
     int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD,
     GLuint sandTexture, GLuint sandNormal,
@@ -134,5 +145,11 @@ vec3 GenerateNormal(float x, float z);
 // Load texture image from given file location
 GLuint LoadTexture(const string& texturePath);
 
-// Calculate LOD
+// Calculate LOD based on distance from player
 static int CalculateLOD(int x, int z);
+
+// Adds a single vertex beneath existing terrain edge vertex
+static int AddSkirtVertex(vector<float>& vertices, int baseIndex);
+
+// Creates a continuous skirt along an edge of a chunk
+static void AddSkirtStrip(vector<float>& vertices, vector<unsigned int>& indices, const vector<int>& edge);

@@ -87,8 +87,8 @@ public:
     }
 
     // Getters and Setters
-    mat4 GetView() { return lookAt(position, position + front, up); }
-    vec3 GetPos() { return position; }
+    const mat4 GetView() { return lookAt(position, position + front, up); }
+    const vec3 GetPos() { return position; }
 
 private:
     vec3 position;
@@ -539,8 +539,8 @@ RenderTerrainObject CreateTerrain(
     int effectiveGrid = gridSize / step;
 
     // Chunk offset
-    float offsetX = chunkX * (gridSize * tileSize + 5.0f);      // +5.0f space between chunks for testing
-    float offsetZ = chunkZ * (gridSize * tileSize + 5.0f);
+    float offsetX = chunkX * (gridSize * tileSize + 0.0f);  // +5.0f space between chunks for testing
+    float offsetZ = chunkZ * (gridSize * tileSize + 0.0f);
 
     // Generate vertices
     for (int z = 0; z <= gridSize; z += step) {
@@ -550,41 +550,48 @@ RenderTerrainObject CreateTerrain(
 
             vec3 normal = GenerateNormal(worldX, worldZ);
 
-            // positions
-            vertices.push_back(worldX);
-            vertices.push_back(GenerateHeight(worldX, worldZ));
-            vertices.push_back(worldZ);
-
-            // normals
-            vertices.push_back(normal.x);
-            vertices.push_back(normal.y);
-            vertices.push_back(normal.z);
-
-            // textures
-            vertices.push_back(worldX);
-            vertices.push_back(worldZ);
+            vertices.insert(vertices.end(), {
+                worldX, GenerateHeight(worldX, worldZ), worldZ, // positions
+                normal.x, normal.y, normal.z,                   // normals
+                worldX, worldZ                                  // textures
+            });
         }
     }
 
     // Generate indices
     for (int z = 0; z < effectiveGrid; z++) {
         for (int x = 0; x < effectiveGrid; x++) {
-            int topLeft = z * (effectiveGrid + 1) + x;
-            int topRight = topLeft + 1;
-            int bottomLeft = (z + 1) * (effectiveGrid + 1) + x;
-            int bottomRight = bottomLeft + 1;
+            unsigned int topLeft = z * (effectiveGrid + 1) + x;
+            unsigned int topRight = topLeft + 1;
+            unsigned int bottomLeft = (z + 1) * (effectiveGrid + 1) + x;
+            unsigned int bottomRight = bottomLeft + 1;
 
-            // first triangle
-            indices.push_back(topLeft);
-            indices.push_back(bottomLeft);
-            indices.push_back(topRight);
-
-            // second triangle
-            indices.push_back(topRight);
-            indices.push_back(bottomLeft);
-            indices.push_back(bottomRight);
+            indices.insert(indices.end(), {
+                topLeft, bottomLeft, topRight,      // first triangle
+                topRight, bottomLeft, bottomRight   // second triangle
+            });
         }
     }
+
+    // -=-=- Edge skirts -=-=-
+    // Chunks with full LOD dont need edge skirts
+    if (currentLOD > 0) {
+        int rowSize = effectiveGrid + 1;
+        vector<int> north, south, west, east;
+
+        for (int i = 0; i < rowSize; i++) {
+            north.push_back(i);
+            south.push_back(effectiveGrid * rowSize + i);
+            west.push_back(i * rowSize);
+            east.push_back(i * rowSize + effectiveGrid);
+        }
+
+        AddSkirtStrip(vertices, indices, north);
+        AddSkirtStrip(vertices, indices, south);
+        AddSkirtStrip(vertices, indices, west);
+        AddSkirtStrip(vertices, indices, east);
+    }
+
     object.indexCount = (unsigned int)indices.size();
 
     // Generate VAO/VBO/EBO
@@ -636,8 +643,8 @@ RenderWaterObject CreateWater(int gridSize, float tileSize, int chunkX, int chun
     float sizeX = gridSize * tileSize;
     float sizeZ = gridSize * tileSize;
 
-    float offsetX = chunkX * (sizeX + 5.0f);
-    float offsetZ = chunkZ * (sizeZ + 5.0f);
+    float offsetX = chunkX * (sizeX + 0.0f);
+    float offsetZ = chunkZ * (sizeZ + 0.0f);
 
     float vertices[] = {
         // positions                                    // textures
@@ -746,12 +753,43 @@ GLuint LoadTexture(const string& texturePath) {
 }
 
 static int CalculateLOD(int x, int z) {
+    // Calculate distance from player
     int distance = std::max(abs(x), abs(z));
 
     if (distance <= 1) { return 0; }
     if (distance <= 2) { return 1; }
-    if (distance <= 4) { return 2; }
-    else { return 3; }
+    else { return 2; }
+}
+
+static int AddSkirtVertex(vector<float>& vertices, int baseIndex) {
+    int v = baseIndex * 8;
+
+    // Create new vertex below original edge vertex
+    vertices.insert(vertices.end(), {
+        vertices[v + 0], vertices[v + 1] - SKIRT_DEPTH, vertices[v + 2],  // positions
+        vertices[v + 3], vertices[v + 4], vertices[v + 5],                // normals
+        vertices[v + 6], vertices[v + 7]                                  // textures
+    });
+
+    return (int)(vertices.size() / 8) - 1;
+}
+
+static void AddSkirtStrip(vector<float>& vertices, vector<unsigned int>& indices, const vector<int>& edge) {
+    for (size_t i = 0; i < edge.size() - 1; i++) {
+        // Original chunk edge vertices
+        unsigned int v0 = edge[i];
+        unsigned int v1 = edge[i + 1];
+
+        // Skirt vertices directly below edge
+        unsigned int s0 = AddSkirtVertex(vertices, v0);
+        unsigned int s1 = AddSkirtVertex(vertices, v1);
+
+        // Connect edge and skirt with a quad
+        indices.insert(indices.end(), {
+            v0, s0, v1,     // first triangle
+            v1, s0, s1      // second triangle
+        });
+    }
 }
 
 
