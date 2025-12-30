@@ -1,4 +1,5 @@
 #pragma once
+#include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm/ext/matrix_transform.hpp>
 #include <string>
@@ -9,6 +10,7 @@ using namespace glm;
 
 
 // Define global constants
+const float CAMERA_SPEED = 15.0f;
 const float WATER_LEVEL = -11.0f;
 const int CHUNK_SIZE = 100;
 const float TILE_SIZE = 2.0;
@@ -79,15 +81,6 @@ struct RenderWaterObject {
     }
 };
 
-// CPU chunk data
-struct TerrainMeshData {
-    vector<float> vertices;
-    vector<unsigned int> indices;
-    int chunkX;
-    int chunkZ;
-    int LOD;        // Level of Detail
-};
-
 // Data needed for each terrain chunk
 struct TerrainChunk {
     RenderTerrainObject terrain;
@@ -95,6 +88,9 @@ struct TerrainChunk {
     int chunkX;
     int chunkZ;
     int LOD;        // Level of Detail
+    bool isQueued;
+
+    TerrainChunk() : chunkX(0), chunkZ(0), LOD(0), isQueued(false) {}
 };
 
 // Unique key used to identify each terrain chunk
@@ -120,6 +116,13 @@ struct ChunkKeyHash {
     }
 };
 
+// Data needed in pending chunks queue
+struct QueuedChunk {
+    int chunkX;
+    int chunkZ;
+    int LOD;
+    bool isNew;
+};
 
 // Window resize logic
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);

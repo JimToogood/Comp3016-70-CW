@@ -1,0 +1,13 @@
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/uninstall.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/UpdateAssimpLibsDebugSymbolsAndDLLs.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/INSTALL.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/ALL_BUILD.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/ZERO_CHECK.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/contrib/zlib/CMakeFiles/zlibstatic.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/contrib/zlib/CMakeFiles/INSTALL.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/contrib/zlib/CMakeFiles/ALL_BUILD.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/code/CMakeFiles/assimp.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/code/CMakeFiles/INSTALL.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/test/CMakeFiles/unit.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/test/CMakeFiles/INSTALL.dir
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/test/headercheck/CMakeFiles/INSTALL.dir

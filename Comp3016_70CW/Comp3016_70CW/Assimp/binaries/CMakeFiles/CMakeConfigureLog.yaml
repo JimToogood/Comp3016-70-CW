@@ -1,0 +1,1245 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "CMakeLists.txt:88 (find_program)"
+    mode: "program"
+    variable: "CCACHE_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ccache"
+    candidate_directories:
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Windows/System32/ccache.com"
+      - "C:/Windows/System32/ccache.exe"
+      - "C:/Windows/System32/ccache"
+      - "C:/Windows/ccache.com"
+      - "C:/Windows/ccache.exe"
+      - "C:/Windows/ccache"
+      - "C:/Windows/System32/wbem/ccache.com"
+      - "C:/Windows/System32/wbem/ccache.exe"
+      - "C:/Windows/System32/wbem/ccache"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache"
+      - "C:/Windows/System32/OpenSSH/ccache.com"
+      - "C:/Windows/System32/OpenSSH/ccache.exe"
+      - "C:/Windows/System32/OpenSSH/ccache"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache"
+      - "C:/Program Files/Git/cmd/ccache.com"
+      - "C:/Program Files/Git/cmd/ccache.exe"
+      - "C:/Program Files/Git/cmd/ccache"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/ccache.com"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/ccache.exe"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/ccache"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/ccache.com"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/ccache.exe"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/ccache"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/"
+    found: "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.14.23+b0019275e for .NET Framework
+      Build started 30/12/2025 16:23:18.
+      
+      Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\4.2.1\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdC.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\4.2.1\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Deleting file "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+        Touching "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate".
+      Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\4.2.1\\CompilerIdC\\CompilerIdC.vcxproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:01.25
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/4.2.1/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/lld-link.com"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/lld-link.exe"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/Program Files/Git/cmd/mt.com"
+      - "C:/Program Files/Git/cmd/mt.exe"
+      - "C:/Program Files/Git/cmd/mt"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/mt.com"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/mt.exe"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/"
+    found: "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.14.23+b0019275e for .NET Framework
+      Build started 30/12/2025 16:23:20.
+      
+      Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\4.2.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\4.2.1\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Deleting file "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+        Touching "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\4.2.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:00.68
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/4.2.1/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/lld-link.com"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/lld-link.exe"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake:580 (enable_language)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake:553 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/Platform/Windows-MSVC-C.cmake:5 (__windows_compiler_msvc)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeCInformation.cmake:48 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/bin/"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/sbin/"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/"
+      - "C:/Program Files/Assimp/bin/"
+      - "C:/Program Files/Assimp/sbin/"
+      - "C:/Program Files/Assimp/"
+    searched_directories:
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/Program Files/Git/cmd/rc.com"
+      - "C:/Program Files/Git/cmd/rc.exe"
+      - "C:/Program Files/Git/cmd/rc"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/jimto/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/rc.com"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/rc.exe"
+      - "C:/Users/jimto/AppData/Local/GitHubDesktop/bin/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/bin/rc.com"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/bin/rc.exe"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/bin/rc"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/sbin/rc.com"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/sbin/rc.exe"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/sbin/rc"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/rc.com"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/rc.exe"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/rc"
+      - "C:/Program Files/Assimp/bin/rc.com"
+      - "C:/Program Files/Assimp/bin/rc.exe"
+      - "C:/Program Files/Assimp/bin/rc"
+      - "C:/Program Files/Assimp/sbin/rc.com"
+      - "C:/Program Files/Assimp/sbin/rc.exe"
+      - "C:/Program Files/Assimp/sbin/rc"
+      - "C:/Program Files/Assimp/rc.com"
+      - "C:/Program Files/Assimp/rc.exe"
+      - "C:/Program Files/Assimp/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\windows\\system32"
+        - "C:\\windows"
+        - "C:\\windows\\System32\\Wbem"
+        - "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Users\\jimto\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jimto\\AppData\\Local\\GitHubDesktop\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/Assimp"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64"
+        - "C:/Program Files/Assimp"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-a6tov3"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-a6tov3"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-a6tov3'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_09d2f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:21.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-a6tov3\\cmTC_09d2f.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-a6tov3\\Debug\\".
+          Creating directory "cmTC_09d2f.dir\\Debug\\cmTC_09d2f.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_09d2f.dir\\Debug\\cmTC_09d2f.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_09d2f.dir\\Debug\\cmTC_09d2f.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_09d2f.dir\\Debug\\\\" /Fd"cmTC_09d2f.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\Downloads\\cmake-4.2.1-windows-x86_64\\cmake-4.2.1-windows-x86_64\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_09d2f.dir\\Debug\\\\" /Fd"cmTC_09d2f.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\Downloads\\cmake-4.2.1-windows-x86_64\\cmake-4.2.1-windows-x86_64\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          CMakeCCompilerABI.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-a6tov3\\Debug\\cmTC_09d2f.exe" /INCREMENTAL /ILK:"cmTC_09d2f.dir\\Debug\\cmTC_09d2f.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-a6tov3/Debug/cmTC_09d2f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-a6tov3/Debug/cmTC_09d2f.lib" /MACHINE:X64  /machine:x64 cmTC_09d2f.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_09d2f.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-a6tov3\\Debug\\cmTC_09d2f.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_09d2f.dir\\Debug\\cmTC_09d2f.tlog\\unsuccessfulbuild".
+          Touching "cmTC_09d2f.dir\\Debug\\cmTC_09d2f.tlog\\cmTC_09d2f.lastbuildstate".
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-a6tov3\\cmTC_09d2f.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.94
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35219.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-bi4dri"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-bi4dri"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-bi4dri'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f9dc1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:23.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-bi4dri\\cmTC_f9dc1.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-bi4dri\\Debug\\".
+          Creating directory "cmTC_f9dc1.dir\\Debug\\cmTC_f9dc1.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_f9dc1.dir\\Debug\\cmTC_f9dc1.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_f9dc1.dir\\Debug\\cmTC_f9dc1.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_f9dc1.dir\\Debug\\\\" /Fd"cmTC_f9dc1.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\jimto\\Downloads\\cmake-4.2.1-windows-x86_64\\cmake-4.2.1-windows-x86_64\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_f9dc1.dir\\Debug\\\\" /Fd"cmTC_f9dc1.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\jimto\\Downloads\\cmake-4.2.1-windows-x86_64\\cmake-4.2.1-windows-x86_64\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-bi4dri\\Debug\\cmTC_f9dc1.exe" /INCREMENTAL /ILK:"cmTC_f9dc1.dir\\Debug\\cmTC_f9dc1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-bi4dri/Debug/cmTC_f9dc1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-bi4dri/Debug/cmTC_f9dc1.lib" /MACHINE:X64  /machine:x64 cmTC_f9dc1.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_f9dc1.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-bi4dri\\Debug\\cmTC_f9dc1.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_f9dc1.dir\\Debug\\cmTC_f9dc1.tlog\\unsuccessfulbuild".
+          Touching "cmTC_f9dc1.dir\\Debug\\cmTC_f9dc1.tlog\\cmTC_f9dc1.lastbuildstate".
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-bi4dri\\cmTC_f9dc1.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.73
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35219.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFile.cmake:174 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:35 (check_include_file)"
+    checks:
+      - "Looking for sys/types.h"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-qkajiw"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-qkajiw"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/cmake-modules"
+    buildResult:
+      variable: "HAVE_SYS_TYPES_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-qkajiw'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_3afd9.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:25.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\cmTC_3afd9.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\Debug\\".
+          Creating directory "cmTC_3afd9.dir\\Debug\\cmTC_3afd9.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_3afd9.dir\\Debug\\cmTC_3afd9.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_3afd9.dir\\Debug\\cmTC_3afd9.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_3afd9.dir\\Debug\\\\" /Fd"cmTC_3afd9.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_3afd9.dir\\Debug\\\\" /Fd"cmTC_3afd9.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\Debug\\cmTC_3afd9.exe" /INCREMENTAL /ILK:"cmTC_3afd9.dir\\Debug\\cmTC_3afd9.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-qkajiw/Debug/cmTC_3afd9.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-qkajiw/Debug/cmTC_3afd9.lib" /MACHINE:X64  /machine:x64 cmTC_3afd9.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_3afd9.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\Debug\\cmTC_3afd9.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_3afd9.dir\\Debug\\cmTC_3afd9.tlog\\unsuccessfulbuild".
+          Touching "cmTC_3afd9.dir\\Debug\\cmTC_3afd9.tlog\\cmTC_3afd9.lastbuildstate".
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-qkajiw\\cmTC_3afd9.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.75
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFile.cmake:174 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:36 (check_include_file)"
+    checks:
+      - "Looking for stdint.h"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-nzboqk"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-nzboqk"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/cmake-modules"
+    buildResult:
+      variable: "HAVE_STDINT_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-nzboqk'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6db5d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:26.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\cmTC_6db5d.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\Debug\\".
+          Creating directory "cmTC_6db5d.dir\\Debug\\cmTC_6db5d.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_6db5d.dir\\Debug\\cmTC_6db5d.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_6db5d.dir\\Debug\\cmTC_6db5d.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_6db5d.dir\\Debug\\\\" /Fd"cmTC_6db5d.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_6db5d.dir\\Debug\\\\" /Fd"cmTC_6db5d.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\Debug\\cmTC_6db5d.exe" /INCREMENTAL /ILK:"cmTC_6db5d.dir\\Debug\\cmTC_6db5d.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-nzboqk/Debug/cmTC_6db5d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-nzboqk/Debug/cmTC_6db5d.lib" /MACHINE:X64  /machine:x64 cmTC_6db5d.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_6db5d.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\Debug\\cmTC_6db5d.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_6db5d.dir\\Debug\\cmTC_6db5d.tlog\\unsuccessfulbuild".
+          Touching "cmTC_6db5d.dir\\Debug\\cmTC_6db5d.tlog\\cmTC_6db5d.lastbuildstate".
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-nzboqk\\cmTC_6db5d.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.91
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFile.cmake:174 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:37 (check_include_file)"
+    checks:
+      - "Looking for stddef.h"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-3n2hm4"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-3n2hm4"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/cmake-modules"
+    buildResult:
+      variable: "HAVE_STDDEF_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-3n2hm4'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_2e333.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:27.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\cmTC_2e333.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\Debug\\".
+          Creating directory "cmTC_2e333.dir\\Debug\\cmTC_2e333.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_2e333.dir\\Debug\\cmTC_2e333.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_2e333.dir\\Debug\\cmTC_2e333.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_2e333.dir\\Debug\\\\" /Fd"cmTC_2e333.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_2e333.dir\\Debug\\\\" /Fd"cmTC_2e333.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\Debug\\cmTC_2e333.exe" /INCREMENTAL /ILK:"cmTC_2e333.dir\\Debug\\cmTC_2e333.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-3n2hm4/Debug/cmTC_2e333.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-3n2hm4/Debug/cmTC_2e333.lib" /MACHINE:X64  /machine:x64 cmTC_2e333.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_2e333.vcxproj -> C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\Debug\\cmTC_2e333.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_2e333.dir\\Debug\\cmTC_2e333.tlog\\unsuccessfulbuild".
+          Touching "cmTC_2e333.dir\\Debug\\cmTC_2e333.tlog\\cmTC_2e333.lastbuildstate".
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-3n2hm4\\cmTC_2e333.vcxproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.74
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckTypeSize.cmake:348 (try_compile)"
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckTypeSize.cmake:481 (__check_type_size_impl)"
+      - "contrib/zlib/CMakeLists.txt:55 (check_type_size)"
+    checks:
+      - "Check size of off64_t"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-7wocz5"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-7wocz5"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/cmake-modules"
+    buildResult:
+      variable: "HAVE_OFF64_T"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-7wocz5'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_d7c6d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:28.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\Debug\\".
+          Creating directory "cmTC_d7c6d.dir\\Debug\\cmTC_d7c6d.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_d7c6d.dir\\Debug\\cmTC_d7c6d.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_d7c6d.dir\\Debug\\cmTC_d7c6d.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_d7c6d.dir\\Debug\\\\" /Fd"cmTC_d7c6d.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_d7c6d.dir\\Debug\\\\" /Fd"cmTC_d7c6d.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c"
+          OFF64_T.c
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(29,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(30,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(31,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(32,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(33,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(29,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(30,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(31,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(32,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\OFF64_T.c(33,12): error C2065: 'off64_t': undeclared identifier [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-7wocz5\\cmTC_d7c6d.vcxproj]
+        
+            0 Warning(s)
+            5 Error(s)
+        
+        Time Elapsed 00:00:00.52
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckFunctionExists.cmake:167 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:64 (check_function_exists)"
+    checks:
+      - "Looking for fseeko"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vuw219"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vuw219"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/cmake-modules"
+    buildResult:
+      variable: "HAVE_FSEEKO"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vuw219'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6bedc.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:29.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\Debug\\".
+          Creating directory "cmTC_6bedc.dir\\Debug\\cmTC_6bedc.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_6bedc.dir\\Debug\\cmTC_6bedc.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_6bedc.dir\\Debug\\cmTC_6bedc.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_6bedc.dir\\Debug\\\\" /Fd"cmTC_6bedc.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\CheckFunctionExists.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_6bedc.dir\\Debug\\\\" /Fd"cmTC_6bedc.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\CheckFunctionExists.c"
+          CheckFunctionExists.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\Debug\\cmTC_6bedc.exe" /INCREMENTAL /ILK:"cmTC_6bedc.dir\\Debug\\cmTC_6bedc.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vuw219/Debug/cmTC_6bedc.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vuw219/Debug/cmTC_6bedc.lib" /MACHINE:X64  /machine:x64 cmTC_6bedc.dir\\Debug\\CheckFunctionExists.obj
+        CheckFunctionExists.obj : error LNK2019: unresolved external symbol fseeko referenced in function main [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj]
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\Debug\\cmTC_6bedc.exe : fatal error LNK1120: 1 unresolved externals [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj]
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          CheckFunctionExists.obj : error LNK2019: unresolved external symbol fseeko referenced in function main [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj]
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\Debug\\cmTC_6bedc.exe : fatal error LNK1120: 1 unresolved externals [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vuw219\\cmTC_6bedc.vcxproj]
+        
+            0 Warning(s)
+            2 Error(s)
+        
+        Time Elapsed 00:00:00.67
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFile.cmake:174 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:72 (check_include_file)"
+    checks:
+      - "Looking for unistd.h"
+    directories:
+      source: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vgckob"
+      binary: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vgckob"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/jimto/source/repos/test_project/test_project/Assimp/cmake-modules"
+    buildResult:
+      variable: "Z_HAVE_UNISTD_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/CMakeFiles/CMakeScratch/TryCompile-vgckob'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_7c9e9.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.14.23+b0019275e for .NET Framework
+        Build started 30/12/2025 16:23:30.
+        
+        Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\cmTC_7c9e9.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\Debug\\".
+          Creating directory "cmTC_7c9e9.dir\\Debug\\cmTC_7c9e9.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_7c9e9.dir\\Debug\\cmTC_7c9e9.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_7c9e9.dir\\Debug\\cmTC_7c9e9.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_7c9e9.dir\\Debug\\\\" /Fd"cmTC_7c9e9.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35219 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_7c9e9.dir\\Debug\\\\" /Fd"cmTC_7c9e9.dir\\Debug\\vc143.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\CheckIncludeFile.c(1,10): error C1083: Cannot open include file: 'unistd.h': No such file or directory [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\cmTC_7c9e9.vcxproj]
+        Done Building Project "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\cmTC_7c9e9.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\cmTC_7c9e9.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\CheckIncludeFile.c(1,10): error C1083: Cannot open include file: 'unistd.h': No such file or directory [C:\\Users\\jimto\\source\\repos\\test_project\\test_project\\Assimp\\binaries\\CMakeFiles\\CMakeScratch\\TryCompile-vgckob\\cmTC_7c9e9.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.47
+        
+      exitCode: 1
+...

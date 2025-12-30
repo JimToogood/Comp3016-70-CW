@@ -1,0 +1,10 @@
+^C:\USERS\JIMTO\SOURCE\REPOS\TEST_PROJECT\TEST_PROJECT\ASSIMP\CODE\CMAKELISTS.TXT
+setlocal
+C:\Users\jimto\Downloads\cmake-4.2.1-windows-x86_64\cmake-4.2.1-windows-x86_64\bin\cmake.exe -SC:/Users/jimto/source/repos/test_project/test_project/Assimp -BC:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries --check-stamp-file C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/code/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

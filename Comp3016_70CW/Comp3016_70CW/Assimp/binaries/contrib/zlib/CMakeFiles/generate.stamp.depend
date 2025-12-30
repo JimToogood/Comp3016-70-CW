@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckCSourceCompiles.cmake
+C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckFunctionExists.cmake
+C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFile.cmake
+C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFileCXX.cmake
+C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/CheckTypeSize.cmake
+C:/Users/jimto/Downloads/cmake-4.2.1-windows-x86_64/cmake-4.2.1-windows-x86_64/share/cmake-4.2/Modules/Internal/CheckSourceCompiles.cmake
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/contrib/zlib/CMakeLists.txt
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/contrib/zlib/zconf.h.cmakein
+C:/Users/jimto/source/repos/test_project/test_project/Assimp/contrib/zlib/zlib.pc.cmakein

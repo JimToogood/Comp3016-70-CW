@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/cmake_install.cmake",
+		"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/contrib/zlib/cmake_install.cmake",
+		"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/code/cmake_install.cmake",
+		"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/test/cmake_install.cmake",
+		"C:/Users/jimto/source/repos/test_project/test_project/Assimp/binaries/test/headercheck/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
