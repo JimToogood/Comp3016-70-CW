@@ -6,8 +6,8 @@
 All textures and sounds used in this project are copyright-free and licensed for free use. All rights remain with their respective creators as listed below. This project does not claim ownership of any of the third-party assets cited.  
 
 
-**Sound Assets Used:**  
-(None as of current commit)  
+**Models Used:**  
+Tree - https://www.turbosquid.com/3d-models/shapespark-low-poly-exterior-plants-kit-1826978   
 
 **Texture Assets Used:**  
 water.jpg - https://www.manytextures.com/texture/44/clear-sea-water/  

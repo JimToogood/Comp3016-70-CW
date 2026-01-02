@@ -58,5 +58,11 @@
     <None Include="shaders\waterFragmentShader.frag">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="shaders\modelFragmentShader.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="shaders\modelVertexShader.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

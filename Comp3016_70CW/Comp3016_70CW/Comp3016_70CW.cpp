@@ -115,6 +115,9 @@ public:
         window(nullptr),
         program(nullptr),
         waterProgram(nullptr),
+        modelProgram(nullptr),
+        treeModel(nullptr),
+        treeModelMatrix(1.0f),
         windowWidth(1280),
         windowHeight(720),
         deltaTime(0.0f),
@@ -169,11 +172,18 @@ public:
         // Load shaders
         program = new Shader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
         waterProgram = new Shader("shaders/waterVertexShader.vert", "shaders/waterFragmentShader.frag");
+        modelProgram = new Shader("shaders/modelVertexShader.vert", "shaders/modelFragmentShader.frag");
 
         // Set sampler uniform
         program->setInt("textureSampler", 0);
 
         SetProjectionMatrix();
+
+        // Load model
+        treeModel = new Model("media/tree/tree.obj");
+        treeModelMatrix = translate(treeModelMatrix, camera.GetPos());
+        //treeModelMatrix = rotate(treeModelMatrix, radians(0.0f), vec3(1.0f, 0.0f, 0.0f));
+        treeModelMatrix = scale(treeModelMatrix, vec3(0.25f, 0.25f, 0.25f));
 
         // -=-=- Terrain -=-=-
         // Load water texture
@@ -289,8 +299,23 @@ public:
         glClearColor(lightColour.r, lightColour.g, lightColour.b, 1.0f);    // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Discard all back-facing triangles
+        glEnable(GL_CULL_FACE);
+
         // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
         mat4 view = camera.GetView();
+
+        // -=-=- Render Model -=-=-
+        modelProgram->use();
+
+        // Pass light intensity to shader
+        modelProgram->setFloat("lightIntensity", lightIntensity);
+
+        // Build transform
+        mat4 modelMvp = projection * view * treeModelMatrix;
+        modelProgram->setMat4("mvpIn", modelMvp);
+
+        treeModel->Draw(*modelProgram);
 
         // -=-=- Render Terrain -=-=-
         program->use();
@@ -523,6 +548,10 @@ private:
     GLFWwindow* window;
     Shader* program;
     Shader* waterProgram;
+    Shader* modelProgram;
+
+    Model* treeModel;
+    mat4 treeModelMatrix;
 
     int windowWidth;
     int windowHeight;

@@ -1,0 +1,32 @@
+# Blender 4.3.2 MTL File: 'tree.blend'
+# www.blender.org
+
+newmtl branch-1-01
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd branch-01.png
+map_d branch-01.png
+
+newmtl branch-1-02
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd branch-02.png
+map_d branch-02.png
+
+newmtl trunk-01
+Ns 431.410095
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd bark.jpg

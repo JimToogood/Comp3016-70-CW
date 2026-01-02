@@ -1,4 +1,2 @@
 ﻿  Comp3016_70CW.cpp
-  LINK : C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\x64\Debug\Comp3016_70CW.exe not found or not built by the last incremental link; performing full link
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Comp3016_70CW.vcxproj -> C:\Users\jimto\OneDrive\Documents\GitHub\Comp3016-70-CW\Comp3016_70CW\x64\Debug\Comp3016_70CW.exe
