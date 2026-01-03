@@ -117,7 +117,6 @@ public:
         waterProgram(nullptr),
         modelProgram(nullptr),
         treeModel(nullptr),
-        treeModelMatrix(1.0f),
         windowWidth(1280),
         windowHeight(720),
         deltaTime(0.0f),
@@ -179,11 +178,8 @@ public:
 
         SetProjectionMatrix();
 
-        // Load model
+        // Load tree model
         treeModel = new Model("media/tree/tree.obj");
-        treeModelMatrix = translate(treeModelMatrix, camera.GetPos());
-        //treeModelMatrix = rotate(treeModelMatrix, radians(0.0f), vec3(1.0f, 0.0f, 0.0f));
-        treeModelMatrix = scale(treeModelMatrix, vec3(0.25f, 0.25f, 0.25f));
 
         // -=-=- Terrain -=-=-
         // Load water texture
@@ -305,18 +301,6 @@ public:
         // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
         mat4 view = camera.GetView();
 
-        // -=-=- Render Model -=-=-
-        modelProgram->use();
-
-        // Pass light intensity to shader
-        modelProgram->setFloat("lightIntensity", lightIntensity);
-
-        // Build transform
-        mat4 modelMvp = projection * view * treeModelMatrix;
-        modelProgram->setMat4("mvpIn", modelMvp);
-
-        treeModel->Draw(*modelProgram);
-
         // -=-=- Render Terrain -=-=-
         program->use();
 
@@ -398,6 +382,28 @@ public:
         }
         glDepthMask(GL_TRUE);
 
+        // -=-=- Render Model -=-=-
+        modelProgram->use();
+
+        // Render each chunk
+        for (auto& pair : terrainChunks) {
+            TerrainChunk& chunk = pair.second;
+
+            // Only render trees in chunks with highest LOD
+            if (chunk.LOD == 0) {
+                for (auto& tree : chunk.trees) {
+                    // Pass light intensity to shader
+                    modelProgram->setFloat("lightIntensity", lightIntensity);
+
+                    // Build transform
+                    mat4 modelMvp = projection * view * tree;
+                    modelProgram->setMat4("mvpIn", modelMvp);
+
+                    treeModel->Draw(*modelProgram);
+                }
+            }
+        }
+
         // Refreshing
         glfwSwapBuffers(window);    // Swaps the colour buffer
         glfwPollEvents();           // Queries all GLFW events
@@ -460,6 +466,10 @@ public:
 
                 chunk.water = CreateWater(
                     CHUNK_SIZE, TILE_SIZE, queued.chunkX, queued.chunkZ, 0.5f, waterTexture
+                );
+
+                chunk.trees = CreateTrees(
+                    CHUNK_SIZE, TILE_SIZE, queued.chunkX, queued.chunkZ
                 );
             }
             // Rebuild chunk if LOD has changed
@@ -549,9 +559,7 @@ private:
     Shader* program;
     Shader* waterProgram;
     Shader* modelProgram;
-
     Model* treeModel;
-    mat4 treeModelMatrix;
 
     int windowWidth;
     int windowHeight;
@@ -628,12 +636,14 @@ RenderTerrainObject CreateTerrain(
         }
     }
 
+    int rowSize = effectiveGrid + 1;
+
     // Generate indices
     for (int z = 0; z < effectiveGrid; z++) {
         for (int x = 0; x < effectiveGrid; x++) {
-            unsigned int topLeft = z * (effectiveGrid + 1) + x;
+            unsigned int topLeft = z * rowSize + x;
             unsigned int topRight = topLeft + 1;
-            unsigned int bottomLeft = (z + 1) * (effectiveGrid + 1) + x;
+            unsigned int bottomLeft = (z + 1) * rowSize + x;
             unsigned int bottomRight = bottomLeft + 1;
 
             indices.insert(indices.end(), {
@@ -646,10 +656,9 @@ RenderTerrainObject CreateTerrain(
     // -=-=- Edge skirts -=-=-
     // Chunks with full LOD dont need edge skirts
     if (currentLOD > 0) {
-        int rowSize = effectiveGrid + 1;
         vector<int> north, south, west, east;
 
-        for (int i = 0; i < rowSize; i++) {
+        for (int i = 0; i <= effectiveGrid; i++) {
             north.push_back(i);
             south.push_back(effectiveGrid * rowSize + i);
             west.push_back(i * rowSize);
@@ -757,6 +766,33 @@ RenderWaterObject CreateWater(int gridSize, float tileSize, int chunkX, int chun
 
     glBindVertexArray(0);
     return object;
+}
+
+vector<mat4> CreateTrees(int gridSize, float tileSize, int chunkX, int chunkZ) {
+    vector<mat4> trees;
+
+    // Chunk offset
+    float offsetX = chunkX * (gridSize * tileSize);
+    float offsetZ = chunkZ * (gridSize * tileSize);
+
+    for (int i = 0; i < TREES_PER_CHUNK; i++) {
+        float x = offsetX + (rand() / (float)RAND_MAX) * gridSize * tileSize;
+        float z = offsetZ + (rand() / (float)RAND_MAX) * gridSize * tileSize;
+        float y = GenerateHeight(x, z);
+
+        if (y < WATER_LEVEL || y > ROCK_LEVEL) {
+            i--;
+            continue;
+        }
+
+        mat4 tree = mat4(1.0f);
+        tree = translate(tree, vec3(x - 4.9f, y - 0.1f, z - 4.7f));  // 4.9f, 4.7f = model offset from world coordinates (adjusted for scale)
+        tree = scale(tree, vec3(0.5f));
+
+        trees.push_back(tree);
+    }
+
+    return trees;
 }
 
 float GenerateHeight(float x, float z) {

@@ -3,7 +3,7 @@
 ---
 
 ## Assets  
-All textures and sounds used in this project are copyright-free and licensed for free use. All rights remain with their respective creators as listed below. This project does not claim ownership of any of the third-party assets cited.  
+All textures and models used in this project are copyright-free and licensed for free use. All rights remain with their respective creators as listed below. This project does not claim ownership of any of the third-party assets cited.  
 
 
 **Models Used:**  

@@ -12,11 +12,13 @@ using namespace glm;
 // Define global constants
 const float CAMERA_SPEED = 15.0f;
 const float WATER_LEVEL = -11.0f;
+const float ROCK_LEVEL = 7.0f;
 const int CHUNK_SIZE = 100;
 const float TILE_SIZE = 2.0;
 const float CHUNK_WORLD_SIZE = CHUNK_SIZE * TILE_SIZE;
 const int RENDER_DISTANCE = 5;      // Number of chunks loaded in each direction from the camera
-const float SKIRT_DEPTH = 10.0f;    // How far below the vertex edge the skirt extends
+const float SKIRT_DEPTH = 25.0f;    // How far below the vertex edge the skirt extends
+const int TREES_PER_CHUNK = 25;
 
 class Game;
 
@@ -85,6 +87,7 @@ struct RenderWaterObject {
 struct TerrainChunk {
     RenderTerrainObject terrain;
     RenderWaterObject water;
+    vector<mat4> trees;
     int chunkX;
     int chunkZ;
     int LOD;        // Level of Detail
@@ -138,6 +141,9 @@ RenderTerrainObject CreateTerrain(
 
 // Function to create textured flat water
 RenderWaterObject CreateWater(int gridSize, float tileSize, int chunkX, int chunkZ, float alpha, GLuint waterTexture);
+
+// Function to randomly create trees based on terrain height
+vector<mat4> CreateTrees(int gridSize, float tileSize, int chunkX, int chunkZ);
 
 // Function generate y values for terrain mapping
 float GenerateHeight(float x, float z);

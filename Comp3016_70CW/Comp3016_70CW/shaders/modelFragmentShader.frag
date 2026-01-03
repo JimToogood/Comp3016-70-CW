@@ -19,8 +19,8 @@ void main() {
     // Adjust based on light intensity
     textureColour.rgb *= lightIntensity;
 
-    // Remove low alpha pixels to allow branches to be seen behind each other
-    if (textureColour.a < 0.55) { discard; }
+    // Remove zero alpha pixels to allow branches to be seen behind each other
+    if (textureColour.a == 0) { discard; }
 
     FragColor = textureColour;
 }
