@@ -117,6 +117,8 @@ public:
         waterProgram(nullptr),
         modelProgram(nullptr),
         treeModel(nullptr),
+        signatureModel(nullptr),
+        signatureModelMatrix(mat4(1.0f)),
         windowWidth(1280),
         windowHeight(720),
         deltaTime(0.0f),
@@ -178,8 +180,11 @@ public:
 
         SetProjectionMatrix();
 
-        // Load tree model
+        // Load models
         treeModel = new Model("media/tree/tree.obj");
+        signatureModel = new Model("media/signature/signature.obj");
+        signatureModelMatrix = translate(signatureModelMatrix, vec3(80.0f, 25.0f, 58.0f));
+        signatureModelMatrix = scale(signatureModelMatrix, vec3(0.75f));
 
         // -=-=- Terrain -=-=-
         // Load water texture
@@ -382,8 +387,17 @@ public:
         }
         glDepthMask(GL_TRUE);
 
-        // -=-=- Render Model -=-=-
+        // -=-=- Render Models -=-=-
         modelProgram->use();
+
+        // Pass light intensity to shader
+        modelProgram->setFloat("lightIntensity", lightIntensity);
+
+        // Build transform
+        mat4 signatureMvp = projection * view * signatureModelMatrix;
+        modelProgram->setMat4("mvpIn", signatureMvp);
+
+        signatureModel->Draw(*modelProgram);
 
         // Render each chunk
         for (auto& pair : terrainChunks) {
@@ -396,8 +410,8 @@ public:
                     modelProgram->setFloat("lightIntensity", lightIntensity);
 
                     // Build transform
-                    mat4 modelMvp = projection * view * tree;
-                    modelProgram->setMat4("mvpIn", modelMvp);
+                    mat4 treeMvp = projection * view * tree;
+                    modelProgram->setMat4("mvpIn", treeMvp);
 
                     treeModel->Draw(*modelProgram);
                 }
@@ -558,8 +572,11 @@ private:
     GLFWwindow* window;
     Shader* program;
     Shader* waterProgram;
+
     Shader* modelProgram;
     Model* treeModel;
+    Model* signatureModel;
+    mat4 signatureModelMatrix;
 
     int windowWidth;
     int windowHeight;
