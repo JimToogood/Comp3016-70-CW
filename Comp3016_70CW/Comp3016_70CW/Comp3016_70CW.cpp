@@ -210,9 +210,6 @@ public:
 
         // Remove loading title
         glfwSetWindowTitle(window, "window");
-
-        // Enable wire-frame mode for testing
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
     void HandleInput() {
@@ -287,7 +284,7 @@ public:
 
         // Update chunks when camera enters a new chunk
         if (currentCameraChunk != previousCameraChunk) {
-            cout << "Queueing new chunks, expect some lag..." << endl;
+            cout << "Queueing new chunks..." << endl;
             QueueNewChunks();
 
             previousCameraChunk = currentCameraChunk;
@@ -300,14 +297,14 @@ public:
         glClearColor(lightColour.r, lightColour.g, lightColour.b, 1.0f);    // RGBA Colour (normalised between 0.0f-1.0f instead of 0-255)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Discard all back-facing triangles
-        glEnable(GL_CULL_FACE);
-
         // Camera view matrix sets position of the viewer, movement direction in relation to it & world up direction
         mat4 view = camera.GetView();
 
         // -=-=- Render Terrain -=-=-
         program->use();
+
+        // Disable backwards face culling for terrain (it breaks LOD skirts)
+        glDisable(GL_CULL_FACE);
 
         // Render each chunk
         for (auto& pair : terrainChunks) {
@@ -363,6 +360,9 @@ public:
         float waterTimer = (float)glfwGetTime();
         waterProgram->use();
         glDepthMask(GL_FALSE);
+
+        // Re-enable backwards face culling
+        glEnable(GL_CULL_FACE);
 
         // Render each chunk
         for (auto& pair : terrainChunks) {
@@ -432,11 +432,25 @@ public:
     }
 
     void CleanUp() {
-        // Delete shader programs
+        // Delete shader programs and models
         delete program;
         delete waterProgram;
+        delete modelProgram;
+        delete treeModel;
+        delete signatureModel;
 
-        // Delete terrain GPU resources
+        // Delete OpenGL GPU resources
+        glDeleteTextures(1, &waterTexture);
+        glDeleteTextures(1, &sandTexture);
+        glDeleteTextures(1, &grassTexture);
+        glDeleteTextures(1, &rockTexture);
+        glDeleteTextures(1, &snowTexture);
+
+        glDeleteTextures(1, &sandNormal);
+        glDeleteTextures(1, &grassNormal);
+        glDeleteTextures(1, &rockNormal);
+        glDeleteTextures(1, &snowNormal);
+
         for (auto& pair : terrainChunks) {
             glDeleteVertexArrays(1, &pair.second.terrain.VAO);
             glDeleteBuffers(1, &pair.second.terrain.VBO);
@@ -471,7 +485,7 @@ public:
                 chunk.chunkZ = queued.chunkZ;
 
                 chunk.terrain = CreateTerrain(
-                    CHUNK_SIZE, TILE_SIZE, queued.chunkX, queued.chunkZ, queued.LOD,
+                    CHUNK_SIZE, TILE_SIZE, queued.chunkX, queued.chunkZ, queued.LOD, heightCache,
                     sandTexture, sandNormal,
                     grassTexture, grassNormal,
                     rockTexture, rockNormal,
@@ -494,7 +508,7 @@ public:
                 glDeleteBuffers(1, &chunk.terrain.EBO);
 
                 chunk.terrain = CreateTerrain(
-                    CHUNK_SIZE, TILE_SIZE, queued.chunkX, queued.chunkZ, queued.LOD,
+                    CHUNK_SIZE, TILE_SIZE, queued.chunkX, queued.chunkZ, queued.LOD, heightCache,
                     sandTexture, sandNormal,
                     grassTexture, grassNormal,
                     rockTexture, rockNormal,
@@ -598,6 +612,7 @@ private:
     GLuint rockNormal;
     GLuint snowNormal;
 
+    unordered_map<int64_t, float> heightCache;
     unordered_map<ChunkKey, TerrainChunk, ChunkKeyHash> terrainChunks;
     queue<QueuedChunk> pendingChunks;
 
@@ -615,7 +630,7 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 RenderTerrainObject CreateTerrain(
-    int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD,
+    int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD, unordered_map<int64_t, float>& heightCache,
     GLuint sandTexture, GLuint sandNormal,
     GLuint grassTexture, GLuint grassNormal,
     GLuint rockTexture, GLuint rockNormal,
@@ -643,12 +658,13 @@ RenderTerrainObject CreateTerrain(
             float worldX = offsetX + x * tileSize;
             float worldZ = offsetZ + z * tileSize;
 
-            vec3 normal = GenerateNormal(worldX, worldZ);
+            float height = GetCachedHeight(heightCache, worldX, worldZ);
+            vec3 normal = GenerateNormal(heightCache, worldX, worldZ);
 
             vertices.insert(vertices.end(), {
-                worldX, GenerateHeight(worldX, worldZ), worldZ, // positions
-                normal.x, normal.y, normal.z,                   // normals
-                worldX, worldZ                                  // textures
+                worldX, height, worldZ,         // positions
+                normal.x, normal.y, normal.z,   // normals
+                worldX, worldZ                  // textures
             });
         }
     }
@@ -675,6 +691,7 @@ RenderTerrainObject CreateTerrain(
     if (currentLOD > 0) {
         vector<int> north, south, west, east;
 
+        // Find cardinal edges
         for (int i = 0; i <= effectiveGrid; i++) {
             north.push_back(i);
             south.push_back(effectiveGrid * rowSize + i);
@@ -682,6 +699,7 @@ RenderTerrainObject CreateTerrain(
             east.push_back(i * rowSize + effectiveGrid);
         }
 
+        // Add skirt to each edge
         AddSkirtStrip(vertices, indices, north);
         AddSkirtStrip(vertices, indices, south);
         AddSkirtStrip(vertices, indices, west);
@@ -795,8 +813,11 @@ vector<mat4> CreateTrees(int gridSize, float tileSize, int chunkX, int chunkZ) {
     for (int i = 0; i < TREES_PER_CHUNK; i++) {
         float x = offsetX + (rand() / (float)RAND_MAX) * gridSize * tileSize;
         float z = offsetZ + (rand() / (float)RAND_MAX) * gridSize * tileSize;
+
+        // Cached heights don't work for this due to tree placement needing deterministic sampling
         float y = GenerateHeight(x, z);
 
+        // Stop trees from generating in water or on top of mountains
         if (y < WATER_LEVEL || y > ROCK_LEVEL) {
             i--;
             continue;
@@ -834,12 +855,32 @@ float GenerateHeight(float x, float z) {
     return height;
 }
 
-vec3 GenerateNormal(float x, float z) {
-    float heightL = GenerateHeight(x - 1.0f, z);
-    float heightR = GenerateHeight(x + 1.0f, z);
-    float heightD = GenerateHeight(x, z - 1.0f);
-    float heightU = GenerateHeight(x, z + 1.0f);
+float GetCachedHeight(unordered_map<int64_t, float>& heightCache, float x, float z) {
+    int ix = (int)floor(x);
+    int iz = (int)floor(z);
 
+    // Construct height key
+    int64_t key = (int64_t(ix) << 32) ^ int64_t(iz);
+
+    // If key found in height cache return found value
+    auto it = heightCache.find(key);
+    if (it != heightCache.end()) { return it->second; }
+
+    // If key not found, generate new height value
+    float height = GenerateHeight((float)ix, (float)iz);
+    heightCache[key] = height;
+
+    return height;
+}
+
+vec3 GenerateNormal(unordered_map<int64_t, float>& heightCache, float x, float z) {
+    // Sample surrounding heights
+    float heightL = GetCachedHeight(heightCache, x - 1.0f, z);
+    float heightR = GetCachedHeight(heightCache, x + 1.0f, z);
+    float heightD = GetCachedHeight(heightCache, x, z - 1.0f);
+    float heightU = GetCachedHeight(heightCache, x, z + 1.0f);
+
+    // Calculate normal vector from height difference
     vec3 normal = vec3(heightL - heightR, 2.0f, heightD - heightU);
 
     return normalize(normal);
@@ -879,6 +920,7 @@ static int CalculateLOD(int x, int z) {
     // Calculate distance from player
     int distance = std::max(abs(x), abs(z));
 
+    // Lower LOD values = higher level of detail (0 = max detail)
     if (distance <= 1) { return 0; }
     if (distance <= 2) { return 1; }
     else { return 2; }

@@ -17,7 +17,7 @@ const int CHUNK_SIZE = 100;
 const float TILE_SIZE = 2.0;
 const float CHUNK_WORLD_SIZE = CHUNK_SIZE * TILE_SIZE;
 const int RENDER_DISTANCE = 5;      // Number of chunks loaded in each direction from the camera
-const float SKIRT_DEPTH = 25.0f;    // How far below the vertex edge the skirt extends
+const float SKIRT_DEPTH = 15.0f;    // How far below the vertex edge the skirt extends
 const int TREES_PER_CHUNK = 25;
 
 class Game;
@@ -123,7 +123,7 @@ struct ChunkKeyHash {
 struct QueuedChunk {
     int chunkX;
     int chunkZ;
-    int LOD;
+    int LOD;    // Level of Detail
     bool isNew;
 };
 
@@ -132,7 +132,7 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 // Function to create textured terrain chunk
 RenderTerrainObject CreateTerrain(
-    int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD,
+    int gridSize, float tileSize, int chunkX, int chunkZ, int currentLOD, unordered_map<int64_t, float>& heightCache,
     GLuint sandTexture, GLuint sandNormal,
     GLuint grassTexture, GLuint grassNormal,
     GLuint rockTexture, GLuint rockNormal,
@@ -148,8 +148,11 @@ vector<mat4> CreateTrees(int gridSize, float tileSize, int chunkX, int chunkZ);
 // Function generate y values for terrain mapping
 float GenerateHeight(float x, float z);
 
+// Retrieve cached height values, from generate height function
+float GetCachedHeight(unordered_map<int64_t, float>& heightCache, float x, float z);
+
 // Function generate normal values
-vec3 GenerateNormal(float x, float z);
+vec3 GenerateNormal(unordered_map<int64_t, float>& heightCache, float x, float z);
 
 // Load texture image from given file location
 GLuint LoadTexture(const string& texturePath);
@@ -160,5 +163,5 @@ static int CalculateLOD(int x, int z);
 // Adds a single vertex beneath existing terrain edge vertex
 static int AddSkirtVertex(vector<float>& vertices, int baseIndex);
 
-// Creates a continuous skirt along an edge of a chunk
+// Creates a continuous vertex skirt along an edge of a chunk
 static void AddSkirtStrip(vector<float>& vertices, vector<unsigned int>& indices, const vector<int>& edge);

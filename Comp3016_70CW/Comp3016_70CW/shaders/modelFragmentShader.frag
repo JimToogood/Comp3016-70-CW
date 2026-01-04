@@ -17,7 +17,7 @@ void main() {
     vec4 textureColour = texture(texture_diffuse1, textureFrag);
 
     // Adjust based on light intensity
-    textureColour.rgb *= lightIntensity;
+    textureColour.rgb *= ((lightIntensity / 2.0f) + 0.5f);
 
     // Remove zero alpha pixels to allow branches to be seen behind each other
     if (textureColour.a == 0) { discard; }
