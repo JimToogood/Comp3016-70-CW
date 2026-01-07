@@ -17,7 +17,7 @@ rock.jpg - https://freestylized.com/material/cliff_rocks_01/
 
 ---
 
-## How to run game
+## How to run game EXE
 1) Download repo  
 2) Go to folder `Comp3016-70-CW-main/Comp3016_70CW/Comp3016_70CW/`  
 3) Ensure following file structure exists there:  
@@ -57,6 +57,15 @@ Comp3016_70CW/
 4) Open `Comp3016_70CW.exe` and that's it!  
 
 *Note: If you want to build a new .exe file from inside Visual Studio, it will be built to `Comp3016_70CW/x64/Debug/`. Attempting to run the .exe file from this folder will not work, the .exe must be moved to the folder show above in order to run correctly.*
+
+---
+
+## How to run Visual Studio Project
+1) Download repo 
+2) Ensure you have [Assimp](https://github.com/assimp/assimp) downloaded, installed and importantly **binaries built** at `C:/Users/Public/Assimp`
+3) Open file `Comp3016-70-CW-main/Comp3016_70CW/Comp3016_70CW.sln` and that's it!  
+
+*Note: Usually the 3 above steps are enough but depending on your system, you may need to replace `Comp3016-70-CW-main/Comp3016_70CW/Comp3016_70CW/assimp-vc143-mt.dll` and `Comp3016-70-CW-main/Comp3016_70CW/Comp3016_70CW/assimp-vc143-mt.lib` with the ones from your version of Assimp found at `C:/Users/Public/Assimp/binaries`*  
 
 ---
 

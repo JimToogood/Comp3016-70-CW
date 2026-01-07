@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Assimp\binaries\include;$(ProjectDir)Assimp\include;$(ProjectDir)OpenGL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)OpenGL\include;C:\Users\Public\Assimp\binaries\include;C:\Users\Public\Assimp\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Assimp\binaries\lib\Release;$(ProjectDir)OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
