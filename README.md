@@ -70,7 +70,7 @@ Comp3016_70CW/
 ---
 
 ## Youtube link
-(link here)  
+https://youtu.be/qollNW6ae0Q  
 
 ---
 
